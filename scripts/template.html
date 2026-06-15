@@ -57,6 +57,7 @@
   .fx .tname{font-size:15px;line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
   .fx .side>span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
   .fx .scorein{flex:0 0 34px}
+  .fx .resin{flex:0 0 86px;display:flex;gap:6px;justify-content:center;align-items:center}
   .fx .grp{display:inline-block;font-size:10px;font-weight:800;color:var(--txt);background:var(--panel2);border:1px solid var(--line);border-radius:6px;padding:1px 6px}
   .fx .sc{flex:0 0 54px;text-align:center;font-weight:700}
   .fx .sc.sched{color:var(--muted);font-weight:400;font-size:11px}
@@ -411,12 +412,11 @@ function renderResults(){
   const byMd={}; MATCHES.forEach(m=>{(byMd[m.md]=byMd[m.md]||[]).push(m);});
   document.getElementById('resultsList').innerHTML=Object.keys(byMd).sort().map(md=>`
     <h2 class="sec">Matchday ${md}</h2><div class="panel">${byMd[md].sort((a,b)=>a.num-b.num).map(m=>`
-      <div class="fx"><span class="d">${m.date}</span>
-        <span class="side" style="text-align:right;align-items:flex-end"><span>${flag(m.home)} ${m.home}</span><span class="o">${OWNER_OF[m.home]}</span></span>
-        <input class="scorein" data-id="${m.id}" data-s="h" value="${m.status==='final'?m.hs:''}" placeholder="-">
-        <input class="scorein" data-id="${m.id}" data-s="a" value="${m.status==='final'?m.as:''}" placeholder="-">
-        <span class="side"><span>${flag(m.away)} ${m.away}</span><span class="o">${OWNER_OF[m.away]}</span></span>
-        <span class="v">📍${m.venue}</span></div>`).join('')}</div>`).join('');
+      <div class="fx"><span class="d"><b style="color:var(--txt);font-size:11px">${m.date}</b><br><span style="font-size:10px">📍${m.venue}</span></span>
+        <span class="side" style="text-align:right;align-items:flex-end"><span class="tname">${flag(m.home)} ${m.home}</span><span class="o">${OWNER_OF[m.home]}</span></span>
+        <span class="resin"><input class="scorein" data-id="${m.id}" data-s="h" value="${m.status==='final'?m.hs:''}" placeholder="-"><input class="scorein" data-id="${m.id}" data-s="a" value="${m.status==='final'?m.as:''}" placeholder="-"></span>
+        <span class="side"><span class="tname">${flag(m.away)} ${m.away}</span><span class="o">${OWNER_OF[m.away]}</span></span>
+      </div>`).join('')}</div>`).join('');
   document.querySelectorAll('.scorein').forEach(inp=>inp.addEventListener('change',e=>{
     const id=e.target.dataset.id,m=MATCHES.find(x=>x.id===id);
     const h=document.querySelector(`.scorein[data-id="${id}"][data-s="h"]`).value;
