@@ -1,0 +1,59 @@
+name: Update, Build & Deploy DC Draft Dashboard
+
+# Auto-pulls live World Cup results, rebuilds index.html, and deploys to GitHub Pages.
+# - Runs every 30 min during the tournament window, on push, and on manual trigger.
+# - Live scores come from scripts/update_results.py:
+#     * set repo secret DC_FOOTBALL_TOKEN (free football-data.org key) for best data, OR
+#     * leave it unset to use the keyless TheSportsDB fallback.
+on:
+  schedule:
+    - cron: "*/30 * * * *"   # every 30 minutes (UTC)
+  push:
+    branches: [ main ]
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Pull live results + rebuild
+        env:
+          DC_FOOTBALL_TOKEN: ${{ secrets.DC_FOOTBALL_TOKEN }}
+        run: python3 scripts/update_results.py
+
+      - name: Commit refreshed results
+        run: |
+          git config user.name "dc-tracker-bot"
+          git config user.email "bot@users.noreply.github.com"
+          git add data/results.json index.html
+          git commit -m "auto: refresh results $(date -u +%FT%TZ)" || echo "no changes"
+          git push || echo "nothing to push"
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

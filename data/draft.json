@@ -1,0 +1,424 @@
+{
+  "me": "Alon",
+  "scoring": {
+    "win": 3,
+    "draw": 1,
+    "loss": 0,
+    "pkWin": 3,
+    "pkLoss": 1
+  },
+  "draftOrder": [
+    "Robert",
+    "Max",
+    "Alon",
+    "Jay",
+    "Andrew B",
+    "Josh",
+    "Mrinal",
+    "Amit"
+  ],
+  "owners": {
+    "Robert": [
+      "France",
+      "Croatia",
+      "South Korea",
+      "Australia",
+      "Bosnia and Herzegovina",
+      "Haiti"
+    ],
+    "Max": [
+      "Spain",
+      "Japan",
+      "United States",
+      "Algeria",
+      "Congo DR",
+      "Curacao"
+    ],
+    "Alon": [
+      "Portugal",
+      "Switzerland",
+      "Turkiye",
+      "Scotland",
+      "Paraguay",
+      "Iraq"
+    ],
+    "Jay": [
+      "England",
+      "Norway",
+      "Uruguay",
+      "Sweden",
+      "Saudi Arabia",
+      "Jordan"
+    ],
+    "Andrew B": [
+      "Argentina",
+      "Belgium",
+      "Ecuador",
+      "Ivory Coast",
+      "Ghana",
+      "South Africa"
+    ],
+    "Josh": [
+      "Brazil",
+      "Netherlands",
+      "Egypt",
+      "Czechia",
+      "Panama",
+      "New Zealand"
+    ],
+    "Mrinal": [
+      "Germany",
+      "Colombia",
+      "Senegal",
+      "Canada",
+      "Cape Verde",
+      "Tunisia"
+    ],
+    "Amit": [
+      "Morocco",
+      "Mexico",
+      "Austria",
+      "Iran",
+      "Qatar",
+      "Uzbekistan"
+    ]
+  },
+  "draft": [
+    {
+      "pick": 1,
+      "round": 1,
+      "slot": 1,
+      "owner": "Robert",
+      "team": "France"
+    },
+    {
+      "pick": 2,
+      "round": 1,
+      "slot": 2,
+      "owner": "Max",
+      "team": "Spain"
+    },
+    {
+      "pick": 3,
+      "round": 1,
+      "slot": 3,
+      "owner": "Alon",
+      "team": "Portugal"
+    },
+    {
+      "pick": 4,
+      "round": 1,
+      "slot": 4,
+      "owner": "Jay",
+      "team": "England"
+    },
+    {
+      "pick": 5,
+      "round": 1,
+      "slot": 5,
+      "owner": "Andrew B",
+      "team": "Argentina"
+    },
+    {
+      "pick": 6,
+      "round": 1,
+      "slot": 6,
+      "owner": "Josh",
+      "team": "Brazil"
+    },
+    {
+      "pick": 7,
+      "round": 1,
+      "slot": 7,
+      "owner": "Mrinal",
+      "team": "Germany"
+    },
+    {
+      "pick": 8,
+      "round": 1,
+      "slot": 8,
+      "owner": "Amit",
+      "team": "Morocco"
+    },
+    {
+      "pick": 9,
+      "round": 2,
+      "slot": 8,
+      "owner": "Amit",
+      "team": "Mexico"
+    },
+    {
+      "pick": 10,
+      "round": 2,
+      "slot": 7,
+      "owner": "Mrinal",
+      "team": "Colombia"
+    },
+    {
+      "pick": 11,
+      "round": 2,
+      "slot": 6,
+      "owner": "Josh",
+      "team": "Netherlands"
+    },
+    {
+      "pick": 12,
+      "round": 2,
+      "slot": 5,
+      "owner": "Andrew B",
+      "team": "Belgium"
+    },
+    {
+      "pick": 13,
+      "round": 2,
+      "slot": 4,
+      "owner": "Jay",
+      "team": "Norway"
+    },
+    {
+      "pick": 14,
+      "round": 2,
+      "slot": 3,
+      "owner": "Alon",
+      "team": "Switzerland"
+    },
+    {
+      "pick": 15,
+      "round": 2,
+      "slot": 2,
+      "owner": "Max",
+      "team": "Japan"
+    },
+    {
+      "pick": 16,
+      "round": 2,
+      "slot": 1,
+      "owner": "Robert",
+      "team": "Croatia"
+    },
+    {
+      "pick": 17,
+      "round": 3,
+      "slot": 1,
+      "owner": "Robert",
+      "team": "South Korea"
+    },
+    {
+      "pick": 18,
+      "round": 3,
+      "slot": 2,
+      "owner": "Max",
+      "team": "United States"
+    },
+    {
+      "pick": 19,
+      "round": 3,
+      "slot": 3,
+      "owner": "Alon",
+      "team": "Turkiye"
+    },
+    {
+      "pick": 20,
+      "round": 3,
+      "slot": 4,
+      "owner": "Jay",
+      "team": "Uruguay"
+    },
+    {
+      "pick": 21,
+      "round": 3,
+      "slot": 5,
+      "owner": "Andrew B",
+      "team": "Ecuador"
+    },
+    {
+      "pick": 22,
+      "round": 3,
+      "slot": 6,
+      "owner": "Josh",
+      "team": "Egypt"
+    },
+    {
+      "pick": 23,
+      "round": 3,
+      "slot": 7,
+      "owner": "Mrinal",
+      "team": "Senegal"
+    },
+    {
+      "pick": 24,
+      "round": 3,
+      "slot": 8,
+      "owner": "Amit",
+      "team": "Austria"
+    },
+    {
+      "pick": 25,
+      "round": 4,
+      "slot": 8,
+      "owner": "Amit",
+      "team": "Iran"
+    },
+    {
+      "pick": 26,
+      "round": 4,
+      "slot": 7,
+      "owner": "Mrinal",
+      "team": "Canada"
+    },
+    {
+      "pick": 27,
+      "round": 4,
+      "slot": 6,
+      "owner": "Josh",
+      "team": "Czechia"
+    },
+    {
+      "pick": 28,
+      "round": 4,
+      "slot": 5,
+      "owner": "Andrew B",
+      "team": "Ivory Coast"
+    },
+    {
+      "pick": 29,
+      "round": 4,
+      "slot": 4,
+      "owner": "Jay",
+      "team": "Sweden"
+    },
+    {
+      "pick": 30,
+      "round": 4,
+      "slot": 3,
+      "owner": "Alon",
+      "team": "Scotland"
+    },
+    {
+      "pick": 31,
+      "round": 4,
+      "slot": 2,
+      "owner": "Max",
+      "team": "Algeria"
+    },
+    {
+      "pick": 32,
+      "round": 4,
+      "slot": 1,
+      "owner": "Robert",
+      "team": "Australia"
+    },
+    {
+      "pick": 33,
+      "round": 5,
+      "slot": 1,
+      "owner": "Robert",
+      "team": "Bosnia and Herzegovina"
+    },
+    {
+      "pick": 34,
+      "round": 5,
+      "slot": 2,
+      "owner": "Max",
+      "team": "Congo DR"
+    },
+    {
+      "pick": 35,
+      "round": 5,
+      "slot": 3,
+      "owner": "Alon",
+      "team": "Paraguay"
+    },
+    {
+      "pick": 36,
+      "round": 5,
+      "slot": 4,
+      "owner": "Jay",
+      "team": "Saudi Arabia"
+    },
+    {
+      "pick": 37,
+      "round": 5,
+      "slot": 5,
+      "owner": "Andrew B",
+      "team": "Ghana"
+    },
+    {
+      "pick": 38,
+      "round": 5,
+      "slot": 6,
+      "owner": "Josh",
+      "team": "Panama"
+    },
+    {
+      "pick": 39,
+      "round": 5,
+      "slot": 7,
+      "owner": "Mrinal",
+      "team": "Cape Verde"
+    },
+    {
+      "pick": 40,
+      "round": 5,
+      "slot": 8,
+      "owner": "Amit",
+      "team": "Qatar"
+    },
+    {
+      "pick": 41,
+      "round": 6,
+      "slot": 8,
+      "owner": "Amit",
+      "team": "Uzbekistan"
+    },
+    {
+      "pick": 42,
+      "round": 6,
+      "slot": 7,
+      "owner": "Mrinal",
+      "team": "Tunisia"
+    },
+    {
+      "pick": 43,
+      "round": 6,
+      "slot": 6,
+      "owner": "Josh",
+      "team": "New Zealand"
+    },
+    {
+      "pick": 44,
+      "round": 6,
+      "slot": 5,
+      "owner": "Andrew B",
+      "team": "South Africa"
+    },
+    {
+      "pick": 45,
+      "round": 6,
+      "slot": 4,
+      "owner": "Jay",
+      "team": "Jordan"
+    },
+    {
+      "pick": 46,
+      "round": 6,
+      "slot": 3,
+      "owner": "Alon",
+      "team": "Iraq"
+    },
+    {
+      "pick": 47,
+      "round": 6,
+      "slot": 2,
+      "owner": "Max",
+      "team": "Curacao"
+    },
+    {
+      "pick": 48,
+      "round": 6,
+      "slot": 1,
+      "owner": "Robert",
+      "team": "Haiti"
+    }
+  ]
+}
