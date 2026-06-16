@@ -7,7 +7,7 @@ name: Update, Build & Deploy DC Draft Dashboard
 #     * leave it unset to use the keyless TheSportsDB fallback.
 on:
   schedule:
-    - cron: "*/30 * * * *"   # every 30 minutes (UTC)
+    - cron: "7 * * * *"   # hourly at :07 (GitHub honors hourly far more reliably than */30)
   push:
     branches: [ main ]
   workflow_dispatch: {}

@@ -131,7 +131,7 @@ def main():
     if not results:
         print("No finished results fetched; leaving results.json unchanged.")
     else:
-        payload = {"updated": datetime.datetime.utcnow().isoformat()+"Z", "source": src,
+        payload = {"updated": datetime.datetime.now(datetime.timezone.utc).isoformat(), "source": src,
                    "results": {str(k): list(v[0]) for k,v in results.items()},
                    "pk": {str(k): v[1] for k,v in results.items() if v[1]}}
         os.makedirs(DATA, exist_ok=True)
