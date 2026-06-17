@@ -17,7 +17,7 @@ Run:
 
 Designed to run unattended in CI (see .github/workflows/build.yml).
 """
-import os, sys, json, datetime, unicodedata, urllib.request, subprocess
+import os, sys, json, re, datetime, unicodedata, urllib.request, subprocess
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
@@ -48,12 +48,20 @@ def canon(name):
 
 # valid team set + pair->fixture lookup
 TEAMS = {t for ts in build.REAL_GROUPS.values() for t in ts}
+def _sq(s):  # squash to letters/digits only, dropping "and" — separator-insensitive
+    s = unicodedata.normalize("NFKD", s or "").encode("ascii","ignore").decode().lower()
+    s = re.sub(r"\band\b", " ", s)
+    return re.sub(r"[^a-z0-9]", "", s)
 def resolve(name):
     c = canon(name)
     if c in TEAMS: return c
-    # last resort: case-insensitive exact against known teams
+    cl = (c or "").lower()
     for t in TEAMS:
-        if t.lower()==(c or "").lower(): return t
+        if t.lower()==cl: return t
+    s = _sq(name)
+    for t in TEAMS:
+        ts = _sq(t)
+        if len(ts) >= 4 and (ts in s or s in ts): return t
     return None
 
 PAIR_TO = {}      # frozenset(home,away) -> (num, home, away)
@@ -77,7 +85,7 @@ def fetch_football_data(token):
     url = "https://api.football-data.org/v4/competitions/WC/matches"
     req = urllib.request.Request(url, headers={"X-Auth-Token": token})
     data = json.load(urllib.request.urlopen(req, timeout=30))
-    out = {}
+    out, unmapped = {}, []
     for m in data.get("matches", []):
         if m.get("status") != "FINISHED": continue
         ft = m.get("score", {}).get("fullTime", {})
@@ -88,6 +96,8 @@ def fetch_football_data(token):
             pkw = m["homeTeam"]["name"] if w=="HOME_TEAM" else m["awayTeam"]["name"] if w=="AWAY_TEAM" else None
         r = record(m["homeTeam"]["name"], m["awayTeam"]["name"], ft["home"], ft["away"], pkw)
         if r: out[r[0]] = (r[1], r[2])
+        else: unmapped.append(f'{m["homeTeam"]["name"]} vs {m["awayTeam"]["name"]}')
+    if unmapped: print("  ⚠ unmapped FINISHED matches:", " | ".join(unmapped))
     return out
 
 # ---------- source 2: TheSportsDB (keyless) ----------
