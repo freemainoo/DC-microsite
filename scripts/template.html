@@ -72,6 +72,29 @@
   .grp-table th,.grp-table td{padding:4px 7px;font-size:12px} .grp-mine{color:var(--accent);font-weight:700}
   .scorein{width:34px;background:var(--panel2);border:1px solid var(--line);color:var(--txt);border-radius:6px;padding:3px;text-align:center}
   .ko-strip{display:flex;gap:8px;flex-wrap:wrap}.ko-strip .kob{background:var(--panel2);border:1px solid var(--line);border-radius:9px;padding:7px 11px;font-size:12px}.ko-strip .kob b{display:block}.ko-strip .kob span{color:var(--muted);font-size:11px}
+  .h2h{border-collapse:collapse;font-size:12px;min-width:640px}
+  .h2h th,.h2h td{padding:6px 7px;text-align:center;border:1px solid var(--line);white-space:nowrap}
+  .h2h th{font-size:10.5px;color:var(--muted)}
+  .h2h td.rn{text-align:left;font-weight:700}
+  .h2h td.diag{background:#0d1326}
+  .h2h td.lead{background:rgba(34,197,94,.15)}
+  .h2h td.behind{background:rgba(248,113,113,.14)}
+  .h2h td.me{outline:2px solid rgba(255,255,255,.4);outline-offset:-2px}
+  .h2h .gd{display:block;font-size:9px;color:var(--muted)}
+  .h2h td.tot{background:var(--panel2);font-weight:700}
+  .rivalcard{border-bottom:1px solid var(--line)}
+  .rivalcard>summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:10px;padding:9px 4px}
+  .rivalcard>summary::-webkit-details-marker{display:none}
+  .rivalcard>summary:hover{background:var(--panel2)}
+  .rivalcard .nm{flex:0 0 130px;font-weight:700}
+  .rivalcard .rec{flex:0 0 64px;font-variant-numeric:tabular-nums;font-size:13px}
+  .rivalcard .wbar{flex:1;display:flex;height:13px;border-radius:4px;overflow:hidden;background:var(--panel2);min-width:90px}
+  .rivalcard .wbar i{display:block}
+  .rivalcard .verdict{flex:0 0 auto;font-size:11px;color:var(--muted)}
+  .rivalcard .games{padding:4px 4px 10px 14px}
+  .gline{display:flex;align-items:center;gap:8px;font-size:12.5px;padding:3px 0}
+  .gline .res{flex:0 0 18px;text-align:center;font-weight:800;border-radius:4px}
+  .gline .res.W{color:var(--accent)}.gline .res.L{color:var(--danger)}.gline .res.D{color:var(--gold)}
   .foot{margin-top:30px;font-size:12px;color:var(--muted);text-align:center;border-top:1px solid var(--line);padding-top:16px}
   button.btn{background:var(--panel2);color:var(--txt);border:1px solid var(--line);border-radius:8px;padding:6px 12px;cursor:pointer;font-size:13px}
 </style>
@@ -96,6 +119,7 @@
     <div class="tab" data-v="rosters">All Rosters</div>
     <div class="tab" data-v="fixtures">Fixtures (owner vs owner)</div>
     <div class="tab" data-v="board">Draft Board</div>
+    <div class="tab" data-v="h2h">Head-to-Head</div>
     <div class="tab" data-v="results">Enter Results</div>
   </nav>
 
@@ -157,6 +181,16 @@
 
     <h2 class="sec">Every pick ranked by points earned</h2>
     <div class="panel"><div id="boardList"></div></div>
+  </section>
+
+  <section class="view" id="v-h2h">
+    <h2 class="sec">League matchup grid</h2>
+    <p class="muted" style="margin-top:-6px;font-size:13px">Every match is a clash between the two owners of the teams. Each cell is the row manager's record <b>vs</b> the column manager (W–D–L, goal diff below). <span style="color:var(--accent)">Green</span> = row leads, <span style="color:var(--danger)">red</span> = row trails. Managers ordered by standings.</p>
+    <div class="panel" style="overflow-x:auto"><table class="h2h" id="h2hGrid"></table></div>
+    <div class="panel" id="internalBox" style="margin-top:12px"></div>
+
+    <h2 class="sec" id="h2hPersonalHdr">Head-to-head detail</h2>
+    <div class="panel" id="h2hPersonal"></div>
   </section>
 
   <section class="view" id="v-results">
@@ -426,7 +460,77 @@ function renderResults(){
     renderAll();
   }));
 }
-function renderAll(){ invalidate(); renderHeader(); renderStandings(); renderMyTeam(); renderRosters(); renderFixtures(); renderBoard(); renderResults(); }
+// ---- head-to-head: aggregate every final match into manager-vs-manager records ----
+function computeH2H(){
+  const H={}, internal=[];
+  OWNER_NAMES.forEach(a=>{H[a]={}; OWNER_NAMES.forEach(b=>{ if(a!==b) H[a][b]={w:0,d:0,l:0,gf:0,ga:0,games:[]}; });});
+  MATCHES.filter(m=>m.status==='final').forEach(m=>{
+    const A=OWNER_OF[m.home], B=OWNER_OF[m.away];
+    if(A===B){ internal.push(m); return; }
+    const homeWin = m.pk ? m.pkWinner===m.home : m.hs>m.as;
+    const awayWin = m.pk ? m.pkWinner===m.away : m.as>m.hs;
+    const ra=H[A][B], rb=H[B][A];
+    ra.gf+=m.hs; ra.ga+=m.as; rb.gf+=m.as; rb.ga+=m.hs;
+    if(homeWin){ra.w++; rb.l++;} else if(awayWin){ra.l++; rb.w++;} else {ra.d++; rb.d++;}
+    ra.games.push({m, mineTeam:m.home, oppTeam:m.away, ms:m.hs, os:m.as, res:homeWin?'W':awayWin?'L':'D'});
+    rb.games.push({m, mineTeam:m.away, oppTeam:m.home, ms:m.as, os:m.hs, res:awayWin?'W':homeWin?'L':'D'});
+  });
+  return {H, internal};
+}
+function h2hTotals(H,a){ let w=0,d=0,l=0,gf=0,ga=0; OWNER_NAMES.forEach(b=>{const r=H[a]&&H[a][b]; if(r){w+=r.w;d+=r.d;l+=r.l;gf+=r.gf;ga+=r.ga;}});
+  const g=w+d+l; return {w,d,l,gf,ga,gd:gf-ga,games:g,pct:g?w/g:0}; }
+
+function renderMatchups(){
+  const {H,internal}=computeH2H();
+  const order=standings().map(o=>o.owner);
+  // ---- grid ----
+  let head='<thead><tr><th></th>'+order.map(o=>`<th style="color:${OWNER_COLOR[o]}">${o.split(' ')[0]}</th>`).join('')+'<th class="tot">Total</th></tr></thead>';
+  let body='<tbody>'+order.map(A=>{
+    const cells=order.map(B=>{
+      if(A===B) return '<td class="diag"></td>';
+      const r=H[A][B], cls=r.w>r.l?'lead':r.w<r.l?'behind':'', mine=(A===ME||B===ME)?'me':'';
+      const gd=r.gf-r.ga;
+      return `<td class="${cls} ${mine}">${r.w}–${r.d}–${r.l}<span class="gd">${r.w+r.d+r.l?(gd>0?'+':'')+gd:''}</span></td>`;
+    }).join('');
+    const t=h2hTotals(H,A);
+    return `<tr><td class="rn" style="border-left:3px solid ${OWNER_COLOR[A]}">${A}${A===ME?' ⬅':''}</td>${cells}<td class="tot">${t.w}–${t.d}–${t.l}<span class="gd">${Math.round(t.pct*100)}%</span></td></tr>`;
+  }).join('')+'</tbody>';
+  document.getElementById('h2hGrid').innerHTML=head+body;
+  // ---- internal (self) matches ----
+  const ib=document.getElementById('internalBox');
+  if(internal.length){
+    ib.style.display='';
+    ib.innerHTML='<b style="font-size:13px">Internal matches</b> <span class="muted" style="font-size:12px">(one manager owns both teams — not counted in records)</span>'+
+      internal.map(m=>`<div class="gline"><span class="muted" style="flex:0 0 120px">${OWNER_OF[m.home]}</span>${flag(m.home)} ${m.home} <b>${m.status==='final'?m.hs+'–'+m.as:'v'}</b> ${m.away} ${flag(m.away)}</div>`).join('');
+  } else { ib.style.display='none'; }
+  // ---- personal view ----
+  const hdr=document.getElementById('h2hPersonalHdr'), box=document.getElementById('h2hPersonal');
+  if(!ME){ hdr.textContent='Head-to-head detail'; box.innerHTML='<div class="muted">Pick a manager in the “Viewing as” dropdown to see their personal rivalries.</div>'; }
+  else {
+    const t=h2hTotals(H,ME);
+    hdr.innerHTML=`${ME}'s rivalries — <span class="hl">${t.w}–${t.d}–${t.l}</span> <span class="muted" style="font-size:13px">(${Math.round(t.pct*100)}% · GD ${t.gd>0?'+':''}${t.gd})</span>`;
+    const rivals=OWNER_NAMES.filter(o=>o!==ME).map(B=>({B, r:H[ME][B]}))
+      .sort((x,y)=>(y.r.w-y.r.l)-(x.r.w-x.r.l) || y.r.w-x.r.w || x.B.localeCompare(y.B));
+    box.innerHTML=rivals.map(({B,r})=>{
+      const g=r.w+r.d+r.l, tot=Math.max(1,g);
+      const verdict = g===0?'not yet played': r.w>r.l?'you lead':r.w<r.l?'they lead':'even';
+      const bar=`<span class="wbar"><i style="flex:${r.w};background:var(--accent)"></i><i style="flex:${r.d};background:var(--gold)"></i><i style="flex:${r.l};background:var(--danger)"></i>${g===0?'<i style="flex:1;background:var(--panel2)"></i>':''}</span>`;
+      const games=r.games.slice().sort((a,b)=>a.m.num-b.m.num).map(gm=>`
+        <div class="gline"><span class="res ${gm.res}">${gm.res}</span>
+          ${flag(gm.mineTeam)} ${gm.mineTeam} <b>${gm.ms}–${gm.os}</b> ${gm.oppTeam} ${flag(gm.oppTeam)}
+          <span class="muted" style="margin-left:auto;font-size:11px">${gm.m.date} · Grp ${gm.m.grp}</span></div>`).join('');
+      return `<details class="rivalcard">
+        <summary>
+          <span class="nm" style="color:${OWNER_COLOR[B]}">${B}</span>
+          <span class="rec">${r.w}–${r.d}–${r.l}</span>
+          ${bar}
+          <span class="verdict">${verdict}${g?` · GD ${r.gf-r.ga>0?'+':''}${r.gf-r.ga}`:''}</span>
+        </summary>
+        <div class="games">${games||'<span class="muted" style="font-size:12px">no matches yet</span>'}</div>
+      </details>`;}).join('');
+  }
+}
+function renderAll(){ invalidate(); renderHeader(); renderStandings(); renderMyTeam(); renderRosters(); renderFixtures(); renderBoard(); renderMatchups(); renderResults(); }
 
 document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>{
   document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
