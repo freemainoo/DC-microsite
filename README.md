@@ -6,7 +6,7 @@ from the header dropdown and every tab switches to their view.
 
 ## Scoring (results only)
 
-**3** win · **1** draw · **0** loss · penalty shootout: **winner 3 / loser 1**. No goals or round bonuses.
+**3** win · **2** draw · **0** loss · penalty shootout: **winner 3 / loser 1**. No goals or round bonuses.
 Standings are computed live from match results and reproduce the organizer's sheet totals exactly.
 
 ## Views

@@ -21,7 +21,7 @@ DATA = os.path.join(ROOT, "data")
 SHEET = {"id": "1DimZR9C0GLFsrynySLqls2vBJ4580vcZxVcyZ9z9E6g", "gid": "0"}
 ME = "Alon"
 
-SCORING = {"win": 3, "draw": 1, "loss": 0, "pkWin": 3, "pkLoss": 1}
+SCORING = {"win": 3, "draw": 2, "loss": 0, "pkWin": 3, "pkLoss": 1}
 
 # ---- The draft: owner -> 6 teams (canonical names). All 48 teams, owned once. ----
 OWNERS = {
