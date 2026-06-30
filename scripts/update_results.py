@@ -53,12 +53,14 @@ def _sq(s):  # squash to letters/digits only, dropping "and" — separator-insen
     s = re.sub(r"\band\b", " ", s)
     return re.sub(r"[^a-z0-9]", "", s)
 def resolve(name):
+    if not name or not str(name).strip(): return None   # TBD / null knockout slot
     c = canon(name)
     if c in TEAMS: return c
     cl = (c or "").lower()
     for t in TEAMS:
         if t.lower()==cl: return t
     s = _sq(name)
+    if len(s) < 4: return None                            # too short to match safely
     for t in TEAMS:
         ts = _sq(t)
         if len(ts) >= 4 and (ts in s or s in ts): return t
@@ -96,7 +98,7 @@ def fetch_football_data(token):
         if stage in ROUND_MAP:  # knockout match
             h = resolve((m.get("homeTeam") or {}).get("name"))
             a = resolve((m.get("awayTeam") or {}).get("name"))
-            if not h or not a: continue   # team still TBD
+            if not h or not a or h == a: continue   # team still TBD (or placeholder collision)
             pkw = None
             if m.get("score", {}).get("duration") == "PENALTY_SHOOTOUT":
                 w = m["score"].get("winner")
