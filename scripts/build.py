@@ -153,6 +153,31 @@ KO_SCHEDULE = [
     ("Final","Jul 19  ·  MetLife Stadium, NY/NJ"),
 ]
 
+# ---- Knockout bracket skeleton (official 2026 feeder map). ----
+# Each: (match#, round, sideA, sideB). Slot codes:
+#   W:A win of group A · R:B runner-up of group B · T:CDEFH best 3rd among those groups
+#   w74 winner of match 74 · l101 loser of match 101
+KO_BRACKET = [
+    (73,"R32","R:A","R:B"), (74,"R32","W:E","T:ABCDF"), (75,"R32","W:F","R:C"),
+    (76,"R32","W:C","R:F"), (77,"R32","W:I","T:CDFGH"), (78,"R32","R:E","R:I"),
+    (79,"R32","W:A","T:CEFHI"), (80,"R32","W:L","T:EHIJK"), (81,"R32","W:D","T:BEFIJ"),
+    (82,"R32","W:G","T:AEHIJ"), (83,"R32","R:K","R:L"), (84,"R32","W:H","R:J"),
+    (85,"R32","W:B","T:EFGIJ"), (86,"R32","W:J","R:H"), (87,"R32","W:K","T:DEIJL"),
+    (88,"R32","R:D","R:G"),
+    (89,"R16","w74","w77"), (90,"R16","w73","w75"), (91,"R16","w76","w78"), (92,"R16","w79","w80"),
+    (93,"R16","w83","w84"), (94,"R16","w81","w82"), (95,"R16","w86","w88"), (96,"R16","w85","w87"),
+    (97,"QF","w89","w90"), (98,"QF","w93","w94"), (99,"QF","w91","w92"), (100,"QF","w95","w96"),
+    (101,"SF","w97","w98"), (102,"SF","w99","w100"),
+    (103,"BRONZE","l101","l102"), (104,"FINAL","w101","w102"),
+]
+# top-to-bottom order per round so feeders line up visually
+KO_ORDER = {"R32":[74,77,73,75,83,84,81,82,76,78,79,80,86,88,85,87],
+            "R16":[89,90,93,94,91,92,95,96], "QF":[97,98,99,100],
+            "SF":[101,102], "FINAL":[104], "BRONZE":[103]}
+KO_ROUND_META = [("R32","Round of 32","Jun 28 – Jul 3"), ("R16","Round of 16","Jul 4 – 7"),
+                 ("QF","Quarter-finals","Jul 9 – 11"), ("SF","Semi-finals","Jul 14 – 15"),
+                 ("FINAL","Final","Jul 19"), ("BRONZE","Third place","Jul 18")]
+
 # ---- Known final results (as of June 14, 2026). ----
 KNOWN_RESULTS = {            # match num : (home_score, away_score)
     1:  (2,0),   # Mexico 2-0 South Africa
@@ -188,7 +213,7 @@ FLAGS = {
 def load_overrides():
     """Merge live results from data/results.json over the hardcoded seed.
     results.json (written by scripts/update_results.py) wins when present."""
-    results = dict(KNOWN_RESULTS); pk = dict(PK_WINNERS)
+    results = dict(KNOWN_RESULTS); pk = dict(PK_WINNERS); knockout = []
     p = os.path.join(DATA, "results.json")
     if os.path.exists(p):
         try:
@@ -197,13 +222,16 @@ def load_overrides():
                 results[int(k)] = tuple(v)
             for k, v in (d.get("pk") or {}).items():
                 pk[int(k)] = v
-            print(f"  merged {len(d.get('results') or {})} live results from results.json"
+            knockout = d.get("knockout") or []
+            print(f"  merged {len(d.get('results') or {})} group + {len(knockout)} knockout results"
                   + (f" (updated {d.get('updated')})" if d.get('updated') else ""))
         except Exception as e:
             print("  ! results.json unreadable, using seed:", e)
-    return results, pk
+    return results, pk, knockout
 
-def build_matches(results, pk):
+ROUND_DATE = {m[0]: m[2] for m in KO_ROUND_META}
+
+def build_matches(results, pk, knockout):
     matches = []
     for (num,grp,md,date,venue,home,away) in GROUP_SCHEDULE:
         m = {"id":f"m{num}","num":num,"grp":grp,"md":md,"date":date,"venue":venue,
@@ -214,6 +242,19 @@ def build_matches(results, pk):
         if num in pk:
             m["pk"]=True; m["pkWinner"]=pk[num]
         matches.append(m)
+    # knockout matches from the live feed (teams known once drawn)
+    for i, k in enumerate(knockout):
+        rnd = k.get("round","R32")
+        ha = "".join(c for c in "_".join(sorted([str(k.get("home")), str(k.get("away"))]))
+                     if c.isalnum() or c=="_")
+        matches.append({
+            "id": f"k_{rnd}_{ha}", "num": 900+i, "grp": None, "round": rnd, "md": None,
+            "date": k.get("date") or ROUND_DATE.get(rnd,""), "venue": k.get("venue",""),
+            "home": k.get("home"), "away": k.get("away"),
+            "hs": k.get("hs"), "as": k.get("as"),
+            "status": k.get("status","scheduled"),
+            "pk": bool(k.get("pkWinner")), "pkWinner": k.get("pkWinner"),
+        })
     return matches
 
 def validate():
@@ -227,8 +268,8 @@ def validate():
 
 def main():
     validate()
-    results, pk = load_overrides()
-    matches = build_matches(results, pk)
+    results, pk, knockout = load_overrides()
+    matches = build_matches(results, pk, knockout)
     draft = build_draft()
     team_owner = {t:o for o,ts in OWNERS.items() for t in ts}
     team_pick = {p["team"]:p["pick"] for p in draft}
@@ -240,6 +281,9 @@ def main():
         "teamPick": team_pick, "teamRound": team_round,
         "realGroups": REAL_GROUPS, "matches": matches,
         "koSchedule": [{"round":r,"dates":d} for (r,d) in KO_SCHEDULE],
+        "koBracket": [{"num":n,"round":r,"a":a,"b":b} for (n,r,a,b) in KO_BRACKET],
+        "koOrder": KO_ORDER,
+        "koRounds": [{"key":k,"name":nm,"dates":d} for (k,nm,d) in KO_ROUND_META],
         "flags": FLAGS,
         "thirdsAdvanced": [], "eliminated": [],
         "builtAt": datetime.date.today().isoformat(),

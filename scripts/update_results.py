@@ -80,16 +80,34 @@ def record(api_home, api_away, hs, as_, pk_winner=None):
     pkw = resolve(pk_winner) if pk_winner else None
     return num, res, pkw
 
+ROUND_MAP = {"LAST_32":"R32","LAST_16":"R16","QUARTER_FINALS":"QF",
+             "SEMI_FINALS":"SF","THIRD_PLACE":"BRONZE","FINAL":"FINAL"}
+
 # ---------- source 1: football-data.org ----------
 def fetch_football_data(token):
     url = "https://api.football-data.org/v4/competitions/WC/matches"
     req = urllib.request.Request(url, headers={"X-Auth-Token": token})
     data = json.load(urllib.request.urlopen(req, timeout=30))
-    out, unmapped = {}, []
+    out, unmapped, ko = {}, [], []
     for m in data.get("matches", []):
-        if m.get("status") != "FINISHED": continue
+        stage = m.get("stage")
         ft = m.get("score", {}).get("fullTime", {})
-        if ft.get("home") is None: continue
+        fin = m.get("status") == "FINISHED"
+        if stage in ROUND_MAP:  # knockout match
+            h = resolve((m.get("homeTeam") or {}).get("name"))
+            a = resolve((m.get("awayTeam") or {}).get("name"))
+            if not h or not a: continue   # team still TBD
+            pkw = None
+            if m.get("score", {}).get("duration") == "PENALTY_SHOOTOUT":
+                w = m["score"].get("winner")
+                pkw = h if w=="HOME_TEAM" else a if w=="AWAY_TEAM" else None
+            ko.append({"round": ROUND_MAP[stage], "home": h, "away": a,
+                       "hs": ft.get("home"), "as": ft.get("away"),
+                       "status": "final" if fin else "scheduled", "pkWinner": pkw,
+                       "date": (m.get("utcDate") or "")[:10]})
+            continue
+        # group stage
+        if not fin or ft.get("home") is None: continue
         pkw = None
         if m.get("score", {}).get("duration") == "PENALTY_SHOOTOUT":
             w = m["score"].get("winner")
@@ -98,7 +116,7 @@ def fetch_football_data(token):
         if r: out[r[0]] = (r[1], r[2])
         else: unmapped.append(f'{m["homeTeam"]["name"]} vs {m["awayTeam"]["name"]}')
     if unmapped: print("  ⚠ unmapped FINISHED matches:", " | ".join(unmapped))
-    return out
+    return out, ko
 
 # ---------- source 2: TheSportsDB (keyless) ----------
 def fetch_sportsdb():
@@ -128,25 +146,26 @@ def selftest():
 def main():
     if "--selftest" in sys.argv:
         sys.exit(0 if selftest() else 1)
-    results, src = {}, None
+    results, ko, src = {}, [], None
     token = os.environ.get("DC_FOOTBALL_TOKEN")
     try:
         if token:
-            results = fetch_football_data(token); src="football-data.org"
+            results, ko = fetch_football_data(token); src="football-data.org"
         else:
             results = fetch_sportsdb(); src="TheSportsDB"
     except Exception as e:
         print("  ! live fetch failed:", e)
         # fall back to whatever's already in results.json (keep last good)
-    if not results:
-        print("No finished results fetched; leaving results.json unchanged.")
+    if not results and not ko:
+        print("No results fetched; leaving results.json unchanged.")
     else:
         payload = {"updated": datetime.datetime.now(datetime.timezone.utc).isoformat(), "source": src,
                    "results": {str(k): list(v[0]) for k,v in results.items()},
-                   "pk": {str(k): v[1] for k,v in results.items() if v[1]}}
+                   "pk": {str(k): v[1] for k,v in results.items() if v[1]},
+                   "knockout": ko}
         os.makedirs(DATA, exist_ok=True)
         json.dump(payload, open(os.path.join(DATA,"results.json"),"w"), indent=2)
-        print(f"Wrote {len(results)} results from {src} -> data/results.json")
+        print(f"Wrote {len(results)} group + {len(ko)} knockout results from {src} -> data/results.json")
     subprocess.check_call([sys.executable, os.path.join(HERE,"build.py")])
 
 if __name__ == "__main__":
