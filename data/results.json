@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-01T00:17:28.922368+00:00",
+  "updated": "2026-07-01T05:49:24.559099+00:00",
   "source": "football-data.org",
   "results": {
     "1": [
@@ -357,9 +357,9 @@
       "round": "R32",
       "home": "Mexico",
       "away": "Ecuador",
-      "hs": null,
-      "as": null,
-      "status": "scheduled",
+      "hs": 2,
+      "as": 0,
+      "status": "final",
       "pkWinner": null,
       "date": "2026-07-01"
     },
