@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-03T04:51:58.431153+00:00",
+  "updated": "2026-07-03T08:20:07.172871+00:00",
   "source": "football-data.org",
   "results": {
     "1": [
@@ -419,7 +419,7 @@
       "away": "Algeria",
       "hs": 2,
       "as": 0,
-      "status": "scheduled",
+      "status": "final",
       "pkWinner": null,
       "date": "2026-07-03"
     },
