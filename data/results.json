@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-03T00:16:31.717143+00:00",
+  "updated": "2026-07-03T04:51:58.431153+00:00",
   "source": "football-data.org",
   "results": {
     "1": [
@@ -407,9 +407,9 @@
       "round": "R32",
       "home": "Portugal",
       "away": "Croatia",
-      "hs": 0,
-      "as": 0,
-      "status": "scheduled",
+      "hs": 2,
+      "as": 1,
+      "status": "final",
       "pkWinner": null,
       "date": "2026-07-02"
     },
@@ -417,8 +417,8 @@
       "round": "R32",
       "home": "Switzerland",
       "away": "Algeria",
-      "hs": null,
-      "as": null,
+      "hs": 2,
+      "as": 0,
       "status": "scheduled",
       "pkWinner": null,
       "date": "2026-07-03"
