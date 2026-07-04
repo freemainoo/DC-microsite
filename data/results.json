@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-04T00:14:52.601354+00:00",
+  "updated": "2026-07-04T04:44:56.745100+00:00",
   "source": "football-data.org",
   "results": {
     "1": [
@@ -437,9 +437,9 @@
       "round": "R32",
       "home": "Argentina",
       "away": "Cape Verde",
-      "hs": 2,
-      "as": 1,
-      "status": "scheduled",
+      "hs": 3,
+      "as": 2,
+      "status": "final",
       "pkWinner": null,
       "date": "2026-07-03"
     },
@@ -447,9 +447,9 @@
       "round": "R32",
       "home": "Colombia",
       "away": "Ghana",
-      "hs": null,
-      "as": null,
-      "status": "scheduled",
+      "hs": 1,
+      "as": 0,
+      "status": "final",
       "pkWinner": null,
       "date": "2026-07-04"
     },
