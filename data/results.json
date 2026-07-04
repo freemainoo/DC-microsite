@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-04T04:44:56.745100+00:00",
+  "updated": "2026-07-04T07:55:33.537736+00:00",
   "source": "football-data.org",
   "results": {
     "1": [
@@ -430,7 +430,7 @@
       "hs": 3,
       "as": 5,
       "status": "final",
-      "pkWinner": null,
+      "pkWinner": "Egypt",
       "date": "2026-07-03"
     },
     {
@@ -495,8 +495,38 @@
     },
     {
       "round": "R16",
+      "home": "Portugal",
+      "away": "Spain",
+      "hs": null,
+      "as": null,
+      "status": "scheduled",
+      "pkWinner": null,
+      "date": "2026-07-06"
+    },
+    {
+      "round": "R16",
       "home": "United States",
       "away": "Belgium",
+      "hs": null,
+      "as": null,
+      "status": "scheduled",
+      "pkWinner": null,
+      "date": "2026-07-07"
+    },
+    {
+      "round": "R16",
+      "home": "Argentina",
+      "away": "Egypt",
+      "hs": null,
+      "as": null,
+      "status": "scheduled",
+      "pkWinner": null,
+      "date": "2026-07-07"
+    },
+    {
+      "round": "R16",
+      "home": "Switzerland",
+      "away": "Colombia",
       "hs": null,
       "as": null,
       "status": "scheduled",
