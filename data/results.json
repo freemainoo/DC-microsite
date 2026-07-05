@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-04T22:07:16.188260+00:00",
+  "updated": "2026-07-05T00:10:10.721721+00:00",
   "source": "football-data.org",
   "results": {
     "1": [
@@ -468,8 +468,8 @@
       "home": "Paraguay",
       "away": "France",
       "hs": 0,
-      "as": 0,
-      "status": "scheduled",
+      "as": 1,
+      "status": "final",
       "pkWinner": null,
       "date": "2026-07-04"
     },
