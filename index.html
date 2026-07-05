@@ -111,6 +111,12 @@
   .koresult{display:flex;align-items:center;gap:8px;font-size:13px;padding:6px 0;border-bottom:1px solid var(--line)}
   .koresult .kt{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
   .koresult select{background:var(--panel2);color:var(--txt);border:1px solid var(--line);border-radius:6px;font-size:11px;padding:2px}
+  .pa{font-weight:700;font-size:12px;font-variant-numeric:tabular-nums;white-space:nowrap}
+  .pa .pal{font-size:9px;opacity:.75;margin-left:2px}
+  .fx .pa{flex:0 0 auto}
+  .side-pa{flex:0 0 46px;text-align:center}
+  .palegend{display:flex;gap:12px;flex-wrap:wrap;font-size:12px;color:var(--muted)}
+  .palegend b{color:var(--txt)}
   .foot{margin-top:30px;font-size:12px;color:var(--muted);text-align:center;border-top:1px solid var(--line);padding-top:16px}
   button.btn{background:var(--panel2);color:var(--txt);border:1px solid var(--line);border-radius:8px;padding:6px 12px;cursor:pointer;font-size:13px}
 </style>
@@ -325,13 +331,32 @@ function renderStandings(){
     options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{color:'#93a0bf'},grid:{display:false}},y:{ticks:{color:'#93a0bf'},grid:{color:'#27304d'}}}}});
   document.getElementById('koStrip').innerHTML=(DATA.koSchedule||[]).map(k=>`<div class="kob"><b>${k.round}</b><span>${k.dates}</span></div>`).join('');
 }
-function teamFixtures(team){
-  return MATCHES.filter(m=>m.home===team||m.away===team).sort((a,b)=>a.num-b.num).map(m=>{
+// per-match point allocation for a team — mirrors teamRecord() exactly (the audit source of truth)
+function matchPoints(team, m){
+  if(m.status!=='final') return null;
+  const mine=m.home===team?m.hs:m.as, oth=m.home===team?m.as:m.hs;
+  if(m.pk) return m.pkWinner===team ? {pts:SC.pkWin,label:'PK W'} : {pts:SC.pkLoss,label:'PK L'};
+  if(mine>oth) return {pts:SC.win,label:'W'};
+  if(mine===oth) return {pts:SC.draw,label:'D'};
+  return {pts:SC.loss,label:'L'};
+}
+function paColor(l){ return (l==='W'||l==='PK W')?'var(--accent)': l==='D'?'var(--gold)': l==='PK L'?'var(--warn)':'var(--muted)'; }
+function paChip(mp){ return mp ? `<span class="pa" style="color:${paColor(mp.label)}">+${mp.pts}<span class="pal">${mp.label}</span></span>` : '<span class="pa muted">—</span>'; }
+function teamFixtures(team, total){
+  const ms=MATCHES.filter(m=>m.home===team||m.away===team).sort((a,b)=>a.num-b.num);
+  let sum=0;
+  const rows=ms.map(m=>{
     const opp=m.home===team?m.away:m.home, fin=m.status==='final';
     const mine=m.home===team?m.hs:m.as, oth=m.home===team?m.as:m.hs;
-    return `<div class="fx"><span class="d">${m.date}</span>
+    const mp=matchPoints(team,m); if(mp)sum+=mp.pts;
+    return `<div class="fx"><span class="d">${m.round||('MD'+m.md)}</span>
       <span class="side"><span>vs ${flag(opp)} ${opp}</span><span class="o">${OWNER_OF[opp]} · 📍${m.venue}</span></span>
-      <span class="sc ${fin?'':'sched'}">${fin?mine+'–'+oth:'—'}</span></div>`;}).join('');
+      <span class="sc ${fin?'':'sched'}">${fin?mine+'–'+oth:'—'}</span>
+      ${paChip(mp)}</div>`;}).join('');
+  const ok = total===undefined || sum===total;
+  return rows + `<div class="fx" style="border-top:1px dashed var(--line)"><span class="d"></span>
+    <span class="side"><span class="muted" style="font-size:11px">sum of games ${ok?'':'⚠ mismatch'}</span></span>
+    <span class="sc"></span><span class="pa" style="color:${ok?'var(--accent)':'var(--danger)'}">${sum}</span></div>`;
 }
 function teamCard(rec){
   const t=rec.team, L=teamReal[t], tbl=groupTable(L);
@@ -345,7 +370,7 @@ function teamCard(rec){
       ${statusTag(rec.status)} <span class="rec">${rec.w}-${rec.d}-${rec.l} · ${rec.gf}:${rec.ga}</span>
       <span style="margin-left:auto">${formHtml(rec.form)}</span></div>
     <table class="grp-table"><tbody>${tbl.map(r=>`<tr class="${r.team===t?'grp-mine':''}"><td>${r.pos}</td><td>${flag(r.team)} ${r.team}</td><td class="num">${r.pld}</td><td class="num">${r.gd>0?'+':''}${r.gd}</td><td class="num"><b>${r.pts}</b></td></tr>`).join('')}</tbody></table>
-    <div style="margin-top:8px">${teamFixtures(t)}</div></div>`;
+    <div style="margin-top:8px">${teamFixtures(t, rec.pts)}</div></div>`;
 }
 function renderMyTeam(){
   const tab=document.getElementById('tabMyteam');
@@ -468,22 +493,29 @@ function renderBoard(){
       <div class="val" style="width:36px"><b style="color:var(--txt)">${r.pts}</b></div></div>`;}).join('');
 }
 function grpResultRow(m){
-  return `<div class="fx"><span class="d"><b style="color:var(--txt);font-size:11px">${m.date}</b><br><span style="font-size:10px">📍${m.venue}</span></span>
+  return `<div class="fx"><span class="pa side-pa" style="color:${m.status==='final'?paColor(matchPoints(m.home,m).label):'var(--muted)'}">${m.status==='final'?'+'+matchPoints(m.home,m).pts+' '+matchPoints(m.home,m).label:''}</span>
     <span class="side" style="text-align:right;align-items:flex-end"><span class="tname">${flag(m.home)} ${m.home}</span><span class="o">${OWNER_OF[m.home]}</span></span>
     <span class="resin"><input class="scorein" data-id="${m.id}" data-s="h" value="${m.status==='final'?m.hs:''}" placeholder="-"><input class="scorein" data-id="${m.id}" data-s="a" value="${m.status==='final'?m.as:''}" placeholder="-"></span>
-    <span class="side"><span class="tname">${flag(m.away)} ${m.away}</span><span class="o">${OWNER_OF[m.away]}</span></span></div>`;
+    <span class="side"><span class="tname">${flag(m.away)} ${m.away}</span><span class="o">${OWNER_OF[m.away]}</span></span>
+    <span class="pa side-pa" style="color:${m.status==='final'?paColor(matchPoints(m.away,m).label):'var(--muted)'}">${m.status==='final'?'+'+matchPoints(m.away,m).pts+' '+matchPoints(m.away,m).label:''}</span>
+    <span class="d" style="flex:0 0 78px;text-align:right">${m.date}<br><span style="font-size:9px">📍${m.venue}</span></span></div>`;
 }
 function koResultRow(m){
   const opt=(t)=>`<option value="${t}" ${m.pkWinner===t?'selected':''}>${t} won PK</option>`;
-  return `<div class="koresult"><span class="muted" style="flex:0 0 52px;font-size:11px">${m.date||''}</span>
-    <span class="kt" style="text-align:right">${flag(m.home)} ${m.home} <span class="muted" style="font-size:10px">${OWNER_OF[m.home]||''}</span></span>
+  const pa=t=> m.status==='final' ? `<span class="pa" style="color:${paColor(matchPoints(t,m).label)}">+${matchPoints(t,m).pts} ${matchPoints(t,m).label}</span>` : '';
+  return `<div class="koresult"><span class="muted" style="flex:0 0 46px;font-size:11px">${m.date||''}</span>
+    <span class="kt" style="text-align:right">${pa(m.home)} ${flag(m.home)} ${m.home} <span class="muted" style="font-size:10px">${OWNER_OF[m.home]||''}</span></span>
     <span class="resin"><input class="scorein" data-id="${m.id}" data-s="h" value="${m.status==='final'?m.hs:''}" placeholder="-"><input class="scorein" data-id="${m.id}" data-s="a" value="${m.status==='final'?m.as:''}" placeholder="-"></span>
-    <span class="kt">${flag(m.away)} ${m.away} <span class="muted" style="font-size:10px">${OWNER_OF[m.away]||''}</span></span>
+    <span class="kt">${flag(m.away)} ${m.away} <span class="muted" style="font-size:10px">${OWNER_OF[m.away]||''}</span> ${pa(m.away)}</span>
     <select class="pksel" data-id="${m.id}"><option value="">no PK</option>${opt(m.home)}${opt(m.away)}</select></div>`;
 }
 function renderResults(){
   const byMd={}; MATCHES.filter(m=>m.md).forEach(m=>{(byMd[m.md]=byMd[m.md]||[]).push(m);});
-  let html=Object.keys(byMd).sort().map(md=>`<h2 class="sec">Matchday ${md}</h2><div class="panel">${byMd[md].sort((a,b)=>a.num-b.num).map(grpResultRow).join('')}</div>`).join('');
+  let html=`<div class="panel" style="margin-bottom:12px"><div class="palegend">Points shown beside each team — audit at a glance:
+    <span><b style="color:var(--accent)">+${SC.win} W</b></span><span><b style="color:var(--gold)">+${SC.draw} D</b></span>
+    <span><b style="color:var(--muted)">+${SC.loss} L</b></span><span><b style="color:var(--accent)">+${SC.pkWin} PK W</b></span>
+    <span><b style="color:var(--warn)">+${SC.pkLoss} PK L</b></span></div></div>`;
+  html+=Object.keys(byMd).sort().map(md=>`<h2 class="sec">Matchday ${md}</h2><div class="panel">${byMd[md].sort((a,b)=>a.num-b.num).map(grpResultRow).join('')}</div>`).join('');
   const koByRound={}; MATCHES.filter(m=>m.round).forEach(m=>{(koByRound[m.round]=koByRound[m.round]||[]).push(m);});
   const rn={R32:'Round of 32',R16:'Round of 16',QF:'Quarter-finals',SF:'Semi-finals',BRONZE:'Third place',FINAL:'Final'};
   ['R32','R16','QF','SF','BRONZE','FINAL'].forEach(rd=>{ if(koByRound[rd]) html+=`<h2 class="sec">${rn[rd]} <span class="muted" style="font-size:11px;font-weight:400">(pick PK winner if a shootout)</span></h2><div class="panel">${koByRound[rd].map(koResultRow).join('')}</div>`; });
