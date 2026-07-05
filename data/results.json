@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-05T21:14:26.567137+00:00",
+  "updated": "2026-07-05T23:13:16.928142+00:00",
   "source": "football-data.org",
   "results": {
     "1": [
@@ -477,9 +477,9 @@
       "round": "R16",
       "home": "Brazil",
       "away": "Norway",
-      "hs": 0,
-      "as": 0,
-      "status": "scheduled",
+      "hs": 1,
+      "as": 2,
+      "status": "final",
       "pkWinner": null,
       "date": "2026-07-05"
     },
