@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-05T23:13:16.928142+00:00",
+  "updated": "2026-07-06T04:23:14.201890+00:00",
   "source": "football-data.org",
   "results": {
     "1": [
@@ -487,9 +487,9 @@
       "round": "R16",
       "home": "Mexico",
       "away": "England",
-      "hs": null,
-      "as": null,
-      "status": "scheduled",
+      "hs": 2,
+      "as": 3,
+      "status": "final",
       "pkWinner": null,
       "date": "2026-07-06"
     },
