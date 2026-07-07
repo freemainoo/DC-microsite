@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-07T15:10:53.278693+00:00",
+  "updated": "2026-07-07T18:10:34.883174+00:00",
   "source": "football-data.org",
   "results": {
     "1": [
@@ -517,9 +517,9 @@
       "round": "R16",
       "home": "Argentina",
       "away": "Egypt",
-      "hs": null,
-      "as": null,
-      "status": "scheduled",
+      "hs": 3,
+      "as": 2,
+      "status": "final",
       "pkWinner": null,
       "date": "2026-07-07"
     },
