@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-07T05:02:24.349139+00:00",
+  "updated": "2026-07-07T08:34:18.175603+00:00",
   "source": "football-data.org",
   "results": {
     "1": [
@@ -542,6 +542,16 @@
       "status": "scheduled",
       "pkWinner": null,
       "date": "2026-07-09"
+    },
+    {
+      "round": "QF",
+      "home": "Spain",
+      "away": "Belgium",
+      "hs": null,
+      "as": null,
+      "status": "scheduled",
+      "pkWinner": null,
+      "date": "2026-07-10"
     },
     {
       "round": "QF",
