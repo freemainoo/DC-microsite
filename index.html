@@ -119,6 +119,67 @@
   .palegend b{color:var(--txt)}
   .foot{margin-top:30px;font-size:12px;color:var(--muted);text-align:center;border-top:1px solid var(--line);padding-top:16px}
   button.btn{background:var(--panel2);color:var(--txt);border:1px solid var(--line);border-radius:8px;padding:6px 12px;cursor:pointer;font-size:13px}
+  /* ---- Team Simulations tab (ported from Boorstein Title Race) ---- */
+  h3.trh{font-size:13.5px;margin:0 0 12px;color:var(--txt);font-weight:700;display:flex;align-items:center;gap:8px}
+  .tr-toggle{margin-left:auto;display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+  .tr-mode{background:var(--panel);color:var(--muted);border:none;padding:5px 11px;font-size:12px;cursor:pointer;font-weight:600}
+  .tr-mode.active{background:var(--accent2);color:#04121f}
+  .trrow{display:flex;align-items:center;gap:9px;padding:6px 0;border-bottom:1px solid var(--line)}
+  .trrow:last-child{border-bottom:none}
+  .trrow .trk{width:20px;color:var(--muted);font-size:12px;text-align:right;flex:0 0 20px}
+  .trrow .trn{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:600;font-size:13px}
+  .trrow.dead .trn{color:var(--muted);font-weight:500}
+  .trrow.me .trn{color:var(--accent)}
+  .trrow .trtrack{flex:0 0 120px;background:var(--panel2);border-radius:6px;height:16px;overflow:hidden;position:relative}
+  .trrow .trfill{height:100%;background:linear-gradient(90deg,var(--accent2),var(--accent))}
+  .trrow.me .trfill{background:linear-gradient(90deg,#16a34a,var(--accent))}
+  .trrow .trpct{flex:0 0 46px;text-align:right;font-variant-numeric:tabular-nums;font-weight:700;font-size:12.5px}
+  .trrow .trpts{flex:0 0 40px;text-align:right;font-size:11px;color:var(--muted);font-variant-numeric:tabular-nums}
+  .trrow .trtag{flex:0 0 auto;font-size:9.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.3px}
+  .trg{padding:8px 0;border-bottom:1px solid var(--line)}.trg:last-child{border-bottom:none}
+  .trg-h{display:flex;align-items:center;font-size:12.5px;font-weight:600;margin-bottom:5px}
+  .trg-h .sw{margin-left:auto;font-size:11px;color:var(--warn);font-weight:700}
+  .trg-bar{display:flex;height:8px;border-radius:5px;overflow:hidden;background:var(--panel2)}
+  .trg-bar i{display:block;height:100%}
+  .trg-sub{font-size:11px;color:var(--muted);margin-top:3px}
+  .tr-selrow{display:flex;align-items:center;gap:12px;margin-bottom:12px;flex-wrap:wrap}
+  .tr-cbox{display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:start}
+  .tr-block h4{font-size:11px;text-transform:uppercase;letter-spacing:.4px;color:var(--muted);margin:0 0 7px}
+  .root{display:flex;align-items:center;gap:8px;font-size:12.5px;padding:3px 0}
+  .root .rt{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .root .rd{flex:0 0 auto;color:var(--accent);font-weight:700;font-variant-numeric:tabular-nums}
+  .root .own{color:var(--accent);font-weight:700}
+  .cond{font-size:12.5px;padding:3px 0;color:var(--txt)}
+  .cond b{color:var(--accent2)}
+  .tree{font-size:12.5px;line-height:1.5;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+  .tree .br{position:relative;padding:2px 0 2px 16px;border-left:1px solid var(--line);margin-left:6px}
+  .tree .br:before{content:"";position:absolute;left:0;top:14px;width:12px;height:1px;background:var(--line)}
+  .tree .own{color:var(--accent);font-weight:700}
+  .tree .dead{color:var(--danger)}
+  .tree .clinch{color:var(--gold);font-weight:700}
+  .tree .lp{color:var(--muted)}
+  .watch{display:flex;gap:8px;flex-wrap:wrap}
+  .wc{flex:1 1 220px;background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:9px 11px}
+  .wc-h{font-size:12px;font-weight:700;margin-bottom:6px}
+  .wc-o{font-size:11.5px;padding:3px 0;border-top:1px dashed var(--line)}
+  .wc-o .ww{font-weight:600}
+  .wc-o .elim{color:var(--warn)}
+  .wc-o .none{color:var(--muted)}
+  .wc-o .cl{color:var(--gold);font-weight:700}
+  @media(max-width:760px){#trTop{grid-template-columns:1fr!important}.tr-cbox{grid-template-columns:1fr}}
+  .simbanner{background:rgba(251,146,60,.12);border:1px solid #6e4220;border-radius:10px;padding:9px 13px;font-size:12.5px;color:#fdc28a;display:flex;align-items:center;gap:10px;margin-bottom:12px}
+  .simbanner b{color:#fff2e0}
+  .brow.pick{cursor:pointer;border-radius:6px;padding:4px 6px;margin:1px -6px;border:1px solid transparent}
+  .brow.pick:hover{background:rgba(56,189,248,.12);border-color:var(--accent2)}
+  .brow.simwin{background:rgba(74,222,128,.10);border:1px solid rgba(74,222,128,.35);border-radius:6px;padding:4px 6px;margin:1px -6px}
+  .bmatch.simdone{border-color:rgba(74,222,128,.4)}
+  .bmatch.simdone .bmeta{color:var(--accent)}
+  .simstrip{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+  .simcard{flex:1 1 260px;background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+  .simcard .sc-h{display:flex;justify-content:space-between;align-items:center;font-weight:700;font-size:13px;margin-bottom:6px}
+  .simcard .sc-t{display:flex;align-items:center;gap:6px;font-size:12px;padding:2px 0;color:var(--muted)}
+  .simcard .sc-t.alive{color:var(--txt)}
+  .simcard .sc-t .stpts{margin-left:auto;font-variant-numeric:tabular-nums;font-weight:700;color:var(--txt)}
 </style>
 </head>
 <body>
@@ -143,6 +204,7 @@
     <div class="tab" data-v="board">Draft Board</div>
     <div class="tab" data-v="h2h">Head-to-Head</div>
     <div class="tab" data-v="bracket">Bracket</div>
+    <div class="tab" data-v="sims">🎲 Team Simulations</div>
     <div class="tab" data-v="results">Enter Results</div>
   </nav>
 
@@ -220,6 +282,60 @@
     <h2 class="sec">Knockout bracket</h2>
     <p class="muted" style="margin-top:-6px;font-size:13px">Fills in live as the feed posts results. Winners advance automatically; <span style="color:var(--accent2)">blue-outlined</span> matches are the next to play. Owner color dot next to each team.</p>
     <div class="panel" style="overflow-x:auto"><div id="bracketBox"></div></div>
+  </section>
+
+  <section class="view" id="v-sims">
+    <h2 class="sec">Team Simulations
+      <span class="seg" id="simSubToggle" style="margin-left:auto"><button data-sub="outcomes" class="on">All Possible Outcomes</button><button data-sub="manual">Manual Simulator</button></span>
+    </h2>
+
+    <!-- ===== SUB-VIEW 1: All Possible Outcomes ===== -->
+    <div id="simOutcomes">
+      <h2 class="sec" style="margin-top:0">Who can still win it <span class="pill" id="trStage" style="font-size:11px;background:var(--panel2);border:1px solid var(--line);border-radius:20px;padding:2px 9px;color:var(--muted)"></span>
+        <span class="tr-toggle" id="trToggle">
+          <button class="tr-mode active" data-mode="even">Even odds</button><button class="tr-mode" data-mode="model">Elo model</button>
+        </span>
+      </h2>
+      <div class="note" id="trIntro" style="background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:10px 13px;font-size:12.5px"></div>
+      <div class="grid" style="grid-template-columns:1.5fr 1fr;gap:16px;align-items:start;margin-top:14px" id="trTop">
+        <div class="panel"><h3 class="trh">Owner leaderboard <span class="pill" id="trAliveN" style="font-size:11px;color:var(--muted)"></span></h3>
+          <div id="trBoard"></div>
+          <div class="muted" style="font-size:11.5px;margin-top:8px" id="trBoardNote"></div>
+        </div>
+        <div class="panel"><h3 class="trh">Most decisive games left</h3>
+          <div id="trGames"></div>
+        </div>
+      </div>
+
+      <div class="panel" style="margin-top:16px"><h3 class="trh">Contender explorer</h3>
+        <div class="tr-selrow">
+          <select class="sel" id="trPick" style="background:var(--panel2);color:var(--txt);border:1px solid var(--line);border-radius:8px;padding:6px 10px"></select>
+          <span class="muted" id="trPickStat" style="font-size:12.5px"></span>
+        </div>
+        <div id="trContender"></div>
+      </div>
+
+      <div class="panel" style="margin-top:16px"><h3 class="trh">Clinch / elimination watch <span class="pill" style="font-size:11px;background:var(--panel2);border:1px solid var(--line);border-radius:20px;padding:2px 9px;color:var(--muted)">next results</span></h3>
+        <div class="muted" style="font-size:12.5px;margin-bottom:8px" id="trWatchNote"></div>
+        <div id="trWatch"></div>
+      </div>
+      <div class="note" id="trMethod" style="margin-top:16px;font-size:12px;color:var(--muted)"></div>
+    </div>
+
+    <!-- ===== SUB-VIEW 2: Manual Simulator ===== -->
+    <div id="simManual" style="display:none">
+      <div class="simbanner">🧪 <b>What-if sandbox</b> — clicking winners here does not touch real results or standings. Stored separately from Enter Results.
+        <button class="btn" id="simResetBtn" style="margin-left:auto">↺ Reset simulation</button>
+      </div>
+      <p class="muted" style="margin-top:-4px;font-size:13px">Click a team in any undecided match to hypothetically advance them. Downstream matches fill in automatically. <span style="color:var(--accent2)">Blue-outlined</span> = live/undecided, click to pick. <span style="color:var(--accent)">Green</span> = your hypothetical pick. Locked (already-played) matches aren't clickable.</p>
+      <div class="panel" style="overflow-x:auto"><div id="simBracketBox"></div></div>
+
+      <h2 class="sec">Hypothetical leaderboard</h2>
+      <div class="panel"><div id="simBoard"></div></div>
+
+      <h2 class="sec">Per-owner squad under this scenario</h2>
+      <div class="simstrip" id="simStrip"></div>
+    </div>
   </section>
 
   <section class="view" id="v-results">
@@ -659,7 +775,465 @@ function renderKnockout(){
   if(!anyKo) html='<div class="muted" style="padding:8px">The bracket is set from the group results — match teams and scores will appear here automatically once the knockout feed posts them (Round of 32 begins June 28).</div>'+html;
   document.getElementById('bracketBox').innerHTML=html;
 }
-function renderAll(){ invalidate(); renderHeader(); renderStandings(); renderMyTeam(); renderRosters(); renderFixtures(); renderBoard(); renderMatchups(); renderKnockout(); renderResults(); }
+/* ====================== TEAM SIMULATIONS ====================== */
+/* Sub-view 1: exact enumeration of every remaining bracket completion, ported from
+   Boorstein "Title Race" (scripts/simulate.py / template.html) but adapted to DC's
+   simpler scoring — 3 pts/win, no goal or advancement bonuses, owners of 6 teams
+   instead of pick'em entrants. Pure client-side so it reacts live to Enter Results edits. */
+
+// ---------- (a) strength model: world-football Elo ----------
+// Anchored to eloratings.net's live World.tsv snapshot, ~5 Jul 2026 (pulled the same week
+// as this build). Ratings included for every team alive in DC's bracket as of that date;
+// any other team defaults to 1750 below. Easily edited/re-pulled from eloratings.net.
+const SIM_ELO = {
+  "Spain":2177, "Argentina":2151, "France":2143, "England":2076, "Colombia":2009,
+  "Portugal":1995, "Brazil":1993, "Norway":1972, "Morocco":1921, "Mexico":1913,
+  "Belgium":1910, "Switzerland":1943, "United States":1798, "Egypt":1747,
+};
+// 2026 co-hosts USA/Mexico/Canada get a small home-soil edge while alive (all matches are on
+// US/Mexico/Canada soil throughout, unlike Boorstein's USA/Mexico-only bump).
+const SIM_HOST = { "United States":50, "Mexico":40, "Canada":40 };
+const simElo = t => (SIM_ELO[t] ?? 1750) + (SIM_HOST[t] || 0);
+function simPwin(a, b){ return 1.0/(1.0 + Math.pow(10, -(simElo(a)-simElo(b))/400)); }
+
+const ROUND_NAME_SIM = {R16:"Round of 16", QF:"Quarter-finals", SF:"Semi-finals", FINAL:"Final"};
+const KO_RANK_SIM = {R32:0, R16:1, QF:2, SF:3, FINAL:4};
+
+// walk the live bracket (resolveBracket's B) and split each knockout round's nodes into
+// decided vs undecided, mirroring Boorstein's ORDER/undecided/propagate().
+function simOrder(){
+  const order=[];
+  ["R16","QF","SF","FINAL"].forEach(r=>(DATA.koOrder[r]||[]).forEach(n=>order.push(n)));
+  return order;
+}
+function simBuildEngine(){
+  const {B} = resolveBracket();
+  const ORDER = simOrder();
+  const knownWinner={}; ORDER.forEach(n=>knownWinner[n]=B[n].winner||null);
+  const undecided = ORDER.filter(n=>!knownWinner[n]);
+  if(undecided.length===0) return null; // fully decided bracket — caller hides the tab gracefully
+  const idx={}; undecided.forEach((n,i)=>idx[n]=i);
+
+  // locked points per owner, from every match decided so far (identical to standings())
+  const lockedOwnerPts={}; OWNER_NAMES.forEach(o=>lockedOwnerPts[o]=ownerScore(o).pts);
+
+  // "next up" = ready undecided games (both feeders known) at the shallowest round
+  const ready = undecided.filter(n=>B[n].t1 && B[n].t2);
+  let nextg=[];
+  if(ready.length){
+    const mr=Math.min(...ready.map(n=>KO_RANK_SIM[B[n].round]));
+    nextg = ready.filter(n=>KO_RANK_SIM[B[n].round]===mr);
+  }
+  const curRound = nextg.length ? B[nextg[0]].round : B[undecided[0]].round;
+
+  // propagate a hypothetical assignment (map: node# -> winning team) through the whole
+  // bracket skeleton, same recursive structure as Boorstein's propagate().
+  function propagate(assign){
+    const nodes={};
+    ORDER.forEach(n=>{
+      const nd=B[n], r=nd.round;
+      let t1,t2;
+      if(r==="R16"){ t1=nd.t1; t2=nd.t2; }
+      else {
+        const sa=DATA.koBracket.find(s=>s.num===n);
+        const feed=c=>{ if(c[0]==='w'){ const src=nodes[+c.slice(1)]; return src?src.winner:null; } return null; };
+        t1=feed(sa.a); t2=feed(sa.b);
+      }
+      nodes[n]={t1,t2,round:r,winner:knownWinner[n]||assign[n]||null};
+    });
+    return nodes;
+  }
+  const gmatch={}; nextg.forEach(r=>gmatch[r]=[B[r].t1,B[r].t2]);
+
+  // recurse over every undecided node exactly once each (2^undecided leaves total),
+  // branching into both winners weighted by simPwin() — Boorstein's recurse().
+  function run(){
+    const s_first={}, w_first={}, s_top2={}, w_top2={}, ceiling={}, floor={}, leaves=[];
+    OWNER_NAMES.forEach(o=>{ s_first[o]=0; w_first[o]=0; s_top2[o]=0; w_top2[o]=0; });
+    function scoreLeaf(nodes, weight, assign){
+      // wins-by-team in this leaf, counted only from undecided nodes (locked pts already
+      // include every decided match)
+      const winsByTeam={};
+      ORDER.forEach(n=>{ const nd=nodes[n]; if(nd.winner) winsByTeam[nd.winner]=(winsByTeam[nd.winner]||0)+1; });
+      const vals={};
+      OWNER_NAMES.forEach(o=>{
+        let v=lockedOwnerPts[o];
+        OWNERS_SIM(o).forEach(t=>{ v += 3*(winsByTeam[t]||0); });
+        vals[o]=v;
+      });
+      let b1=[-1,null], b2=[-1,null];
+      OWNER_NAMES.forEach(o=>{
+        const v=vals[o];
+        if(v>(ceiling[o]??-1)) ceiling[o]=v;
+        if(v<(floor[o]??1e9)) floor[o]=v;
+        if(v>b1[0]){ b2=b1; b1=[v,o]; } else if(v>b2[0]){ b2=[v,o]; }
+      });
+      s_first[b1[1]]+=1; w_first[b1[1]]+=weight;
+      [b1[1],b2[1]].forEach(o=>{ if(o){ s_top2[o]+=1; w_top2[o]+=weight; } });
+      leaves.push({weight, champ:b1[1], assign:Object.assign({},assign), vals});
+    }
+    function recurse(assign, weight){
+      const nodes=propagate(assign);
+      let nxt=null;
+      for(const n of ORDER){ const nd=nodes[n]; if(nd.t1 && nd.t2 && !nd.winner){ nxt=n; break; } }
+      if(nxt===null){ scoreLeaf(nodes, weight, assign); return; }
+      const a=nodes[nxt].t1, b=nodes[nxt].t2, p=simPwin(a,b);
+      const r1=Object.assign({},assign); r1[nxt]=a; recurse(r1, weight*p);
+      const r2=Object.assign({},assign); r2[nxt]=b; recurse(r2, weight*(1-p));
+    }
+    recurse({}, 1.0);
+    return {s_first, w_first, s_top2, w_top2, ceiling, floor, leaves, N: leaves.length};
+  }
+  const R = run();
+  const fav = Object.keys(R.w_first).reduce((a,b)=> R.w_first[b]>(R.w_first[a]||0) ? b : a, null);
+
+  function cond(owner, constraints){
+    let num=0, den=0;
+    for(const leaf of R.leaves){
+      let ok=true;
+      for(const n in constraints){ if(leaf.assign[n]!==constraints[n]){ ok=false; break; } }
+      if(!ok) continue;
+      den+=leaf.weight; if(leaf.champ===owner) num+=leaf.weight;
+    }
+    return den ? num/den : 0;
+  }
+  function rooting(owner){
+    const out=[]; const mine=new Set(OWNERS_SIM(owner));
+    nextg.forEach(r=>{
+      const [A,Bt]=gmatch[r]; const pa=cond(owner,{[r]:A}), pb=cond(owner,{[r]:Bt});
+      const want = pa>=pb ? A : Bt; const d=Math.abs(pa-pb);
+      out.push({team:want, own:mine.has(want), delta:d, vs: want===A?Bt:A});
+    });
+    out.sort((x,y)=>y.delta-x.delta); return out;
+  }
+  function necessary(owner){
+    const wins = R.leaves.filter(l=>l.champ===owner);
+    if(!wins.length) return [];
+    const conds=[];
+    nextg.forEach(r=>{
+      const set=new Set(wins.map(l=>l.assign[r]));
+      if(set.size===1){
+        const tm=[...set][0]; const [A,Bt]=gmatch[r]; const other = tm===A?Bt:A;
+        conds.push({team:tm, vs:other});
+      }
+    });
+    return conds;
+  }
+  function buildTree(owner, depth){
+    if(!R.s_first[owner]) return null;
+    const mine=new Set(OWNERS_SIM(owner));
+    function rec(constraints, remaining, d){
+      let best=null;
+      for(const r of remaining){
+        const [A,Bt]=gmatch[r];
+        const pa=cond(owner,Object.assign({},constraints,{[r]:A}));
+        const pb=cond(owner,Object.assign({},constraints,{[r]:Bt}));
+        const lev=Math.abs(pa-pb);
+        if(!best || lev>best.lev) best={lev,r,A,Bt,pa,pb};
+      }
+      if(!best || best.lev<1e-9) return null;
+      const {r,A,Bt,pa,pb}=best;
+      const rem2=remaining.filter(x=>x!==r);
+      const branches=[[A,pa],[Bt,pb]].sort((x,y)=>y[1]-x[1]).map(([tm,p])=>{
+        const dead=p<=1e-9, clinch=Math.abs(p-1)<1e-9;
+        let child=null;
+        if(!dead && !clinch && d>1 && rem2.length) child=rec(Object.assign({},constraints,{[r]:tm}), rem2, d-1);
+        return {team:tm, own:mine.has(tm), pct:p, dead, clinch, child};
+      });
+      return {a:A, b:Bt, branches};
+    }
+    return rec({}, nextg.slice(), depth);
+  }
+  // most decisive games (total-variation swing in champion distribution)
+  const games=[];
+  nextg.forEach(r=>{
+    const [A,Bt]=gmatch[r];
+    const wA={}, wB={}; let tA=0, tB=0;
+    R.leaves.forEach(l=>{
+      if(l.assign[r]===A){ wA[l.champ]=(wA[l.champ]||0)+l.weight; tA+=l.weight; }
+      else { wB[l.champ]=(wB[l.champ]||0)+l.weight; tB+=l.weight; }
+    });
+    const keys=new Set([...Object.keys(wA),...Object.keys(wB)]);
+    let tv=0; keys.forEach(k=> tv += Math.abs((wA[k]||0)/(tA||1) - (wB[k]||0)/(tB||1)) );
+    tv*=0.5;
+    games.push({a:A, b:Bt, swing:tv, fav, favIfA: tA?((wA[fav]||0)/tA):0, favIfB: tB?((wB[fav]||0)/tB):0});
+  });
+  games.sort((x,y)=>y.swing-x.swing);
+
+  // clinch / elimination watch
+  const aliveForFirst = OWNER_NAMES.filter(o=>R.s_first[o]>0);
+  const watch=[];
+  nextg.slice().sort((x,y)=>{
+    const sw=r=>{ const g=games.find(g=>(g.a===gmatch[r][0]&&g.b===gmatch[r][1])); return g?g.swing:0; };
+    return sw(y)-sw(x);
+  }).forEach(r=>{
+    const [A,Bt]=gmatch[r]; const outs=[];
+    [[A,Bt],[Bt,A]].forEach(([X,Y])=>{
+      const elim = aliveForFirst.filter(o=>cond(o,{[r]:X})===0);
+      const clinch = aliveForFirst.filter(o=>Math.abs(cond(o,{[r]:X})-1.0)<1e-9);
+      outs.push({winner:X, loser:Y, eliminated:elim, clinch});
+    });
+    watch.push({a:A, b:Bt, outcomes:outs});
+  });
+
+  return {
+    stage: ROUND_NAME_SIM[curRound]||curRound, undecided: undecided.length,
+    completions: Math.pow(2, undecided.length), fav, nextg, gmatch,
+    R, lockedOwnerPts, aliveForFirst, games, watch,
+    cond, rooting, necessary, buildTree,
+  };
+}
+function OWNERS_SIM(owner){ return DATA.owners[owner] || []; }
+
+let SIM_MODE='even'; // 'even' | 'model'
+const simPct = p => (p*100).toFixed(1);
+const simPct0 = p => Math.round(p*100);
+let SIM_ENGINE=null;
+
+function simNode(node){
+  const hdr = `<div class="lp">${flag(node.a)} ${node.a} vs ${node.b} ${flag(node.b)}?</div>`;
+  const brs = node.branches.map(br=>{
+    const own = br.own?'own':'';
+    let tail;
+    if(br.dead) tail='&rarr; <span class="dead">eliminated from 1st</span>';
+    else if(br.clinch) tail='&rarr; <span class="clinch">clinches 1st &#127942;</span>';
+    else if(br.child) tail='&rarr;';
+    else tail=`&rarr; <b>${simPct0(br.pct)}%</b>`;
+    return `<div class="br"><span class="${own}">${flag(br.team)} ${br.team}${br.own?' &#9733;':''}</span> ${tail}${br.child?simNode(br.child):''}</div>`;
+  }).join('');
+  return hdr+brs;
+}
+function simTree(node){
+  if(!node) return '<div class="tree lp">No single decisive game — many mixed paths remain from here.</div>';
+  return `<div class="tree">${simNode(node)}</div>`;
+}
+function renderSimBoard(){
+  const E=SIM_ENGINE; if(!E) return;
+  const w = SIM_MODE==='even' ? o=>E.R.s_first[o]/Math.max(E.R.N,1) : o=>E.R.w_first[o];
+  const top2 = o=>E.R.s_top2[o]/Math.max(E.R.N,1);
+  const rows = OWNER_NAMES.map(o=>({owner:o, p:w(o), top2:top2(o), pts:E.lockedOwnerPts[o], alive:E.R.s_first[o]>0}))
+    .sort((a,b)=> b.p-a.p || b.pts-a.pts);
+  const mx = Math.max(0.01, ...rows.map(r=>r.p));
+  document.getElementById('trBoard').innerHTML = rows.map((r,i)=>{
+    const dead=!r.alive, me=r.owner===ME;
+    const tag = dead ? '<span class="trtag">out of 1st</span>' : (r.top2>0 ? `<span class="trtag">top-2 ${simPct0(r.top2)}%</span>` : '');
+    return `<div class="trrow ${dead?'dead':''} ${me?'me':''}">
+      <span class="trk">${i+1}</span>
+      <span class="trn">${r.owner}${me?' &#9733;':''}</span>
+      <span class="trpts">${r.pts}</span>
+      <span class="trtrack"><span class="trfill" style="width:${dead?0:Math.round(r.p/mx*100)}%"></span></span>
+      <span class="trpct">${dead?'&mdash;':simPct(r.p)+'%'}</span>
+      ${tag}
+    </div>`;
+  }).join('');
+  document.querySelectorAll('#trToggle .tr-mode').forEach(b=>b.classList.toggle('active', b.dataset.mode===SIM_MODE));
+}
+function renderSimContender(owner){
+  const E=SIM_ENGINE; if(!E) return;
+  const alive = E.R.s_first[owner]>0;
+  const even = E.R.s_first[owner]/Math.max(E.R.N,1), model = E.R.w_first[owner];
+  const top2 = E.R.s_top2[owner]/Math.max(E.R.N,1);
+  const stat = document.getElementById('trPickStat');
+  stat.innerHTML = alive
+    ? `even <b>${simPct(even)}%</b> &middot; model <b>${simPct(model)}%</b> &middot; ${E.lockedOwnerPts[owner]} pts locked &middot; top-2 ${simPct0(top2)}%`
+    : `<span style="color:var(--warn)">Eliminated from 1st</span> &middot; ${E.lockedOwnerPts[owner]} pts locked &middot; still top-2 in ${simPct0(top2)}%`;
+  if(!alive){
+    document.getElementById('trContender').innerHTML = `<div class="note" style="font-size:12.5px">${owner} can no longer finish 1st in any remaining bracket outcome. Ceiling ${E.R.ceiling[owner]}, floor ${E.R.floor[owner]}.</div>`;
+    return;
+  }
+  const root = E.rooting(owner).filter(x=>x.delta>0.004).map(x=>
+    `<div class="root"><span class="rt ${x.own?'own':''}">${flag(x.team)} ${x.team}${x.own?' &#9733;':''} <span class="lp">over ${x.vs}</span></span><span class="rd">+${simPct0(x.delta)}%</span></div>`
+  ).join('') || '<div class="lp">Indifferent &mdash; no remaining game moves your odds much.</div>';
+  const nec = E.necessary(owner);
+  const need = nec.length
+    ? nec.map(c=>`<div class="cond">&#10003; <b>${c.team}</b> must beat ${c.vs}</div>`).join('')
+    : '<div class="cond lp">No single must-win game &mdash; multiple paths keep you alive.</div>';
+  document.getElementById('trContender').innerHTML = `
+    <div class="tr-cbox">
+      <div class="tr-block"><h4>Root for (odds gained if they win)</h4>${root}</div>
+      <div class="tr-block"><h4>Must happen to finish 1st</h4>${need}</div>
+    </div>
+    <div class="tr-block" style="margin-top:14px"><h4>Path to 1st (&#9733; = your team &middot; % = win odds on that branch)</h4>${simTree(E.buildTree(owner,3))}</div>`;
+}
+function renderTeamSimOutcomes(){
+  const tab = document.querySelector('.tab[data-v="sims"]');
+  SIM_ENGINE = simBuildEngine();
+  if(!SIM_ENGINE){
+    document.getElementById('simOutcomes').innerHTML = '<div class="panel muted">The knockout bracket is fully decided — no outcomes left to simulate. Check back once the next round is drawn.</div>';
+    return;
+  }
+  const E=SIM_ENGINE;
+  document.getElementById('trStage').textContent = E.stage;
+  document.getElementById('trAliveN').textContent = `${E.aliveForFirst.length} of ${OWNER_NAMES.length} alive`;
+  document.getElementById('trIntro').innerHTML =
+    `<b>${E.undecided}</b> knockout matches remain unplayed &mdash; <b>${E.completions.toLocaleString()}</b> possible ways the bracket can finish. `+
+    `We score every one exactly (3 pts per win, no goal/round bonuses). <b>${E.aliveForFirst.length}</b> owners can still finish 1st. `+
+    `The Elo strength model favours <b>${E.fav||'—'}</b>.`;
+  document.getElementById('trBoardNote').innerHTML =
+    `<b>Even odds</b> = every remaining knockout result a coin-flip. <b>Elo model</b> = weighted by current world-football Elo ratings (with a small host-nation edge for USA/Mexico/Canada while alive). Bar + % reflect the selected mode.`;
+  renderSimBoard();
+  document.getElementById('trGames').innerHTML = E.games.map(g=>{
+    const tot = Math.max(0.001, g.favIfA+g.favIfB);
+    return `<div class="trg">
+      <div class="trg-h">${flag(g.a)} ${g.a} vs ${g.b} ${flag(g.b)} <span class="sw">swing ${simPct0(g.swing)}%</span></div>
+      <div class="trg-bar"><i style="width:${Math.round(g.favIfA/tot*100)}%;background:var(--accent2)"></i><i style="width:${Math.round(g.favIfB/tot*100)}%;background:var(--accent)"></i></div>
+      <div class="trg-sub">${g.fav||'—'} to win it all: <b>${simPct0(g.favIfA)}%</b> if ${g.a} advances &middot; <b>${simPct0(g.favIfB)}%</b> if ${g.b} advances</div>
+    </div>`;
+  }).join('') || '<div class="muted" style="font-size:12.5px">No remaining games to compare.</div>';
+  const sel=document.getElementById('trPick');
+  sel.innerHTML = OWNER_NAMES.map(o=>{
+    const p=E.R.s_first[o]/Math.max(E.R.N,1);
+    return `<option value="${o}">${o}${o===ME?' ★ (you)':''} — ${simPct(p)}% win</option>`;
+  }).join('');
+  const def = ME && OWNER_NAMES.includes(ME) ? ME : (OWNER_NAMES.slice().sort((a,b)=>E.R.s_first[b]-E.R.s_first[a])[0]);
+  sel.value = def; renderSimContender(def);
+  sel.onchange = ()=>renderSimContender(sel.value);
+  document.getElementById('trWatchNote').textContent = 'What each upcoming result does to the owner title race — who clinches or gets knocked out of contention for 1st.';
+  document.getElementById('trWatch').innerHTML = '<div class="watch">'+E.watch.map(w=>{
+    const outs = w.outcomes.map(o=>{
+      const parts=[];
+      if(o.clinch.length) parts.push(`<span class="cl">clinches: ${o.clinch.join(', ')}</span>`);
+      if(o.eliminated.length) parts.push(`<span class="elim">out: ${o.eliminated.join(', ')}</span>`);
+      if(!parts.length) parts.push('<span class="none">no eliminations</span>');
+      return `<div class="wc-o"><span class="ww">${flag(o.winner)} ${o.winner} wins</span> &mdash; ${parts.join(' &middot; ')}</div>`;
+    }).join('');
+    return `<div class="wc"><div class="wc-h">${flag(w.a)} ${w.a} vs ${w.b} ${flag(w.b)}</div>${outs}</div>`;
+  }).join('')+'</div>';
+  document.getElementById('trMethod').innerHTML =
+    `<b>Method.</b> Exact enumeration of all ${E.completions.toLocaleString()} remaining bracket completions (no sampling, no Monte Carlo). `+
+    `Each owner's score in a completion = their locked points (every decided match so far) + 3 &times; the number of their 6 teams that win an undecided knockout game in that completion. `+
+    `Win odds are the share of completions an owner finishes 1st. Even odds treats every result as a coin flip; the Elo model weights each completion by current world-football ratings. Updates automatically as results are entered.`;
+  document.querySelectorAll('#trToggle .tr-mode').forEach(b=> b.onclick=()=>{ SIM_MODE=b.dataset.mode; renderSimBoard(); });
+  if(tab) tab.style.display='';
+}
+
+/* ---------- Sub-view 2: Manual Simulator ---------- */
+function loadSimPicks(){ try{ return JSON.parse(localStorage.getItem('dc_sim_picks')||'{}'); }catch(e){ return {}; } }
+function saveSimPicks(p){ localStorage.setItem('dc_sim_picks', JSON.stringify(p)); }
+function simResolveBracket(picks){
+  // Same shape/semantics as resolveBracket(), but undecided nodes may additionally be
+  // resolved by a hypothetical pick from `picks` (node# -> winning team name).
+  const {B:base,W,R} = resolveBracket();
+  const B={}; Object.keys(base).forEach(k=>{ B[k]=Object.assign({}, base[k]); });
+  const ORDER = simOrder();
+  ORDER.forEach(n=>{
+    const nd=B[n];
+    if(nd.round!=='R16'){
+      const sa=DATA.koBracket.find(s=>s.num===+n);
+      const feed=c=>{ if(c[0]==='w'){ const src=B[+c.slice(1)]; return src?src.winner:null; } return null; };
+      nd.t1 = feed(sa.a); nd.t2 = feed(sa.b);
+    }
+    if(!nd.winner && nd.t1 && nd.t2 && picks[n]){
+      nd.winner = picks[n]; nd.loser = picks[n]===nd.t1 ? nd.t2 : nd.t1; nd.hyp = true;
+    }
+  });
+  return {B,W,R};
+}
+function simHypWins(picks){
+  // team -> number of hypothetical (picked, not-yet-real) wins credited
+  const {B} = simResolveBracket(picks);
+  const wins={};
+  Object.values(B).forEach(nd=>{ if(nd.hyp && nd.winner) wins[nd.winner]=(wins[nd.winner]||0)+1; });
+  return wins;
+}
+function simOwnerBoard(picks){
+  const wins = simHypWins(picks);
+  return OWNER_NAMES.map(o=>{
+    const base = ownerScore(o);
+    const hyp = OWNERS_SIM(o).reduce((s,t)=>s+3*(wins[t]||0), 0);
+    return {owner:o, base:base.pts, hyp, total:base.pts+hyp, alive:base.alive};
+  }).sort((a,b)=>b.total-a.total || a.owner.localeCompare(b.owner));
+}
+function simKoCard(n, B, W, R, picks){
+  const m=n.m, fin=m&&m.status==='final';
+  const t1=m?m.home:slotLabel(n.a,B,W,R), t2=m?m.away:slotLabel(n.b,B,W,R);
+  const dot=t=>OWNER_OF[t]?`<span class="bdot" style="background:${OWNER_COLOR[OWNER_OF[t]]}"></span>`:'';
+  const flagOf=t=>OWNER_OF[t]?flag(t)+' ':'';
+  const clickable = !fin && t1 && t2 && !/^(Winner|2nd|Best 3rd)/.test(t1) && !/^(Winner|2nd|Best 3rd)/.test(t2);
+  const row=(t,sc,win,isHyp)=>{
+    const cls = ['brow']; if(win) cls.push('win'); if(isHyp && win) cls.push('simwin'); if(clickable) cls.push('pick');
+    const clickAttr = clickable ? ` data-simpick="${n.num}" data-team="${t.replace(/"/g,'&quot;')}"` : '';
+    return `<div class="${cls.join(' ')}"${clickAttr}>${dot(t)}${flagOf(t)}<span class="bt">${t}</span><span class="bs">${sc}</span></div>`;
+  };
+  const isHyp = n.hyp;
+  let meta;
+  if(fin) meta = (m.pk?`<div class="bpk">PK: ${m.pkWinner}</div>`:'')+'<div class="bmeta">full time</div>';
+  else if(isHyp) meta = '<div class="bmeta" style="color:var(--accent)">hypothetical &mdash; click to change</div>';
+  else if(clickable) meta = '<div class="bmeta" style="color:var(--accent2)">click a team to simulate</div>';
+  else meta = '<div class="bmeta">awaiting feeders</div>';
+  return `<div class="bmatch ${clickable?'next':''} ${fin?'done':''} ${isHyp?'simdone':''}">
+    ${row(t1, fin?m.hs:'', n.winner===t1, isHyp)}${row(t2, fin?m.as:'', n.winner===t2, isHyp)}${meta}</div>`;
+}
+function renderSimBracket(){
+  const picks = loadSimPicks();
+  const {B,W,R} = simResolveBracket(picks);
+  const cols=[['R32','Round of 32'],['R16','Round of 16'],['QF','Quarter-finals'],['SF','Semi-finals'],['FINAL','Final']];
+  let html='<div class="bracket">'+cols.map(([rd,name])=>
+    `<div class="bcol"><div class="bch">${name}</div>${(DATA.koOrder[rd]||[]).map(num=>simKoCard(B[num],B,W,R,picks)).join('')}</div>`).join('')+'</div>';
+  const champNode = B[104];
+  if(champNode && champNode.winner){
+    html += `<div class="note" style="margin-top:14px;font-size:13px">&#127942; Hypothetical champion: <b>${flag(champNode.winner)} ${champNode.winner}</b> <span class="muted" style="font-size:11.5px">(${OWNER_OF[champNode.winner]})</span></div>`;
+  }
+  document.getElementById('simBracketBox').innerHTML = html;
+  document.querySelectorAll('#simBracketBox [data-simpick]').forEach(el=>{
+    el.addEventListener('click', ()=>{
+      const num = el.dataset.simpick, team = el.dataset.team;
+      const p = loadSimPicks(); p[num] = team; saveSimPicks(p);
+      renderTeamSimManual();
+    });
+  });
+}
+function renderSimBoardPanel(){
+  const picks = loadSimPicks();
+  const rows = simOwnerBoard(picks);
+  const mx = Math.max(1, ...rows.map(r=>r.total));
+  document.getElementById('simBoard').innerHTML = rows.map((r,i)=>{
+    const me=r.owner===ME;
+    return `<div class="trrow ${me?'me':''}">
+      <span class="trk">${i+1}</span>
+      <span class="trn">${r.owner}${me?' &#9733;':''}</span>
+      <span class="trpts">${r.base}${r.hyp?` <span style="color:var(--accent)">+${r.hyp}</span>`:''}</span>
+      <span class="trtrack"><span class="trfill" style="width:${Math.round(r.total/mx*100)}%"></span></span>
+      <span class="trpct">${r.total}</span>
+    </div>`;
+  }).join('');
+}
+function renderSimStrip(){
+  const picks = loadSimPicks();
+  const wins = simHypWins(picks);
+  const {B} = simResolveBracket(picks);
+  const eliminated = new Set();
+  Object.values(B).forEach(nd=>{ if(nd.winner && nd.t1 && nd.t2){ eliminated.add(nd.winner===nd.t1?nd.t2:nd.t1); } });
+  document.getElementById('simStrip').innerHTML = standings().map(o=>{
+    const teams = OWNERS_SIM(o.owner).map(t=>{
+      const rec = teamRecord(t);
+      const hypW = wins[t]||0;
+      const total = rec.pts + 3*hypW;
+      const alive = rec.status!=='out' && !eliminated.has(t);
+      return `<div class="sc-t ${alive?'alive':''}"><span class="dot" style="background:${alive?'var(--accent)':'var(--danger)'}"></span>${flag(t)} ${t}${hypW?` <span class="muted" style="font-size:10px">(+${hypW} hyp)</span>`:''}<span class="stpts">${total}</span></div>`;
+    }).join('');
+    return `<div class="simcard ${o.owner===ME?'card me':''}" style="${o.owner===ME?'border-color:rgba(255,255,255,.4)':''}">
+      <div class="sc-h" style="color:${OWNER_COLOR[o.owner]}">${o.owner}${o.owner===ME?' &#9733;':''}</div>
+      ${teams}
+    </div>`;
+  }).join('');
+}
+function renderTeamSimManual(){
+  renderSimBracket();
+  renderSimBoardPanel();
+  renderSimStrip();
+}
+let SIM_SUB='outcomes';
+function renderTeamSimulations(){
+  const tab = document.querySelector('.tab[data-v="sims"]');
+  const anyKo = MATCHES.some(m=>m.round);
+  if(!anyKo){ if(tab) tab.style.display='none'; return; }
+  if(tab) tab.style.display='';
+  if(SIM_SUB==='outcomes') renderTeamSimOutcomes();
+  else renderTeamSimManual();
+}
+
+function renderAll(){ invalidate(); renderHeader(); renderStandings(); renderMyTeam(); renderRosters(); renderFixtures(); renderBoard(); renderMatchups(); renderKnockout(); renderTeamSimulations(); renderResults(); }
 
 document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>{
   document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
@@ -669,6 +1243,17 @@ document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>{
 document.querySelectorAll('#fxFilter button').forEach(b=>b.addEventListener('click',()=>{
   document.querySelectorAll('#fxFilter button').forEach(x=>x.classList.remove('on')); b.classList.add('on'); fxFilter=b.dataset.f; renderFixtures();
 }));
+// Team Simulations sub-view toggle
+document.querySelectorAll('#simSubToggle button').forEach(b=>b.addEventListener('click',()=>{
+  document.querySelectorAll('#simSubToggle button').forEach(x=>x.classList.remove('on')); b.classList.add('on');
+  SIM_SUB=b.dataset.sub;
+  document.getElementById('simOutcomes').style.display = SIM_SUB==='outcomes' ? '' : 'none';
+  document.getElementById('simManual').style.display = SIM_SUB==='manual' ? '' : 'none';
+  renderTeamSimulations();
+}));
+document.getElementById('simResetBtn').addEventListener('click',()=>{
+  localStorage.removeItem('dc_sim_picks'); renderTeamSimManual();
+});
 // manager selector
 const mgrSel=document.getElementById('mgrSelect');
 mgrSel.innerHTML='<option value="">— League view —</option>'+OWNER_NAMES.map(o=>`<option value="${o}">${o}</option>`).join('');

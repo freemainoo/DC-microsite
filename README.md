@@ -16,6 +16,9 @@ Standings are computed live from match results and reproduce the organizer's she
 - **All Rosters** — every squad with per-team points and alive/out dots.
 - **Fixtures (owner vs owner)** — every match is a head-to-head between two owners; shows the group and venue; filterable.
 - **Draft Board** — the snake grid, a points-vs-pick value scatter, biggest steals & busts, and owner draft efficiency.
+- **Head-to-Head** — league-wide manager-vs-manager matchup grid plus personal rivalry detail.
+- **Bracket** — the live knockout bracket with owner-color dots per team.
+- **Team Simulations** — exact enumeration of every remaining bracket outcome (even-odds or Elo-weighted), a "who can still win" leaderboard, decisive-game and clinch/elimination watch, and a click-through "Manual Simulator" what-if bracket with its own live leaderboard (sandboxed from real results).
 - **Enter Results** — manual override of any score (saved in your browser).
 
 Use the **“Viewing as” dropdown** in the header to become any manager (remembered next visit), or pick *League view* for a neutral overview.
