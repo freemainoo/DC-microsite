@@ -136,6 +136,8 @@
   .trrow .trpct{flex:0 0 46px;text-align:right;font-variant-numeric:tabular-nums;font-weight:700;font-size:12.5px}
   .trrow .trpts{flex:0 0 40px;text-align:right;font-size:11px;color:var(--muted);font-variant-numeric:tabular-nums}
   .trrow .trtag{flex:0 0 auto;font-size:9.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.3px}
+  .trrow .trtag.upset{color:var(--warn);border:1px solid var(--warn);border-radius:20px;padding:1px 6px}
+  .trrow .trmove{flex:0 0 auto;font-size:10px;font-weight:700;font-variant-numeric:tabular-nums;min-width:30px}
   .trg{padding:8px 0;border-bottom:1px solid var(--line)}.trg:last-child{border-bottom:none}
   .trg-h{display:flex;align-items:center;font-size:12.5px;font-weight:600;margin-bottom:5px}
   .trg-h .sw{margin-left:auto;font-size:11px;color:var(--warn);font-weight:700}
@@ -1007,23 +1009,49 @@ function simTree(node){
   if(!node) return '<div class="tree lp">No single decisive game — many mixed paths remain from here.</div>';
   return `<div class="tree">${simNode(node)}</div>`;
 }
+// Odds-movement: remember the win-odds from the previous *results state* so the
+// board can show how each owner moved since the last game finished. Keyed by a
+// signature of locked points + games remaining, so it only advances the baseline
+// when real results actually change (not on reloads or mode toggles).
+function simOddsBaseline(E){
+  const N=Math.max(E.R.N,1);
+  const cur={}; OWNER_NAMES.forEach(o=>{ cur[o]={even:E.R.s_first[o]/N, model:E.R.w_first[o]}; });
+  const sig=JSON.stringify(E.lockedOwnerPts)+'|'+E.undecided;
+  let snap=null; try{ snap=JSON.parse(localStorage.getItem('dc_sim_oddsnap')||'null'); }catch(e){}
+  const baseline = (snap && snap.sig===sig) ? (snap.baseline||null) : (snap ? snap.cur : null);
+  try{ localStorage.setItem('dc_sim_oddsnap', JSON.stringify({sig,cur,baseline})); }catch(e){}
+  return baseline;
+}
 function renderSimBoard(){
   const E=SIM_ENGINE; if(!E) return;
-  const w = SIM_MODE==='even' ? o=>E.R.s_first[o]/Math.max(E.R.N,1) : o=>E.R.w_first[o];
-  const top2 = o=>E.R.s_top2[o]/Math.max(E.R.N,1);
-  const rows = OWNER_NAMES.map(o=>({owner:o, p:w(o), top2:top2(o), pts:E.lockedOwnerPts[o], alive:E.R.s_first[o]>0}))
+  const N=Math.max(E.R.N,1);
+  const val = SIM_MODE==='even' ? o=>E.R.s_first[o]/N : o=>E.R.w_first[o];
+  const top2 = o=>E.R.s_top2[o]/N;
+  const base = simOddsBaseline(E);
+  const rows = OWNER_NAMES.map(o=>({owner:o, p:val(o), even:E.R.s_first[o]/N, model:E.R.w_first[o], top2:top2(o), pts:E.lockedOwnerPts[o], alive:E.R.s_first[o]>0}))
     .sort((a,b)=> b.p-a.p || b.pts-a.pts);
   const mx = Math.max(0.01, ...rows.map(r=>r.p));
   document.getElementById('trBoard').innerHTML = rows.map((r,i)=>{
     const dead=!r.alive, me=r.owner===ME;
     const tag = dead ? '<span class="trtag">out of 1st</span>' : (r.top2>0 ? `<span class="trtag">top-2 ${simPct0(r.top2)}%</span>` : '');
+    // "needs upsets": much stronger on even-odds than on the Elo model.
+    const upset = (!dead && r.even>=0.05 && (r.even-r.model)>=0.08)
+      ? '<span class="trtag upset" title="Much higher on even-odds than on the Elo model — this owner is relying on upsets.">&#9889; needs upsets</span>' : '';
+    // movement since the last results change, for the currently displayed mode.
+    let move='<span class="trmove"></span>';
+    if(!dead && base && base[r.owner]){
+      const d = r.p - (SIM_MODE==='even'?base[r.owner].even:base[r.owner].model);
+      if(d>=0.005) move=`<span class="trmove" style="color:var(--accent)" title="since last result">&#9650;${simPct0(d)}</span>`;
+      else if(d<=-0.005) move=`<span class="trmove" style="color:var(--danger)" title="since last result">&#9660;${simPct0(-d)}</span>`;
+    }
     return `<div class="trrow ${dead?'dead':''} ${me?'me':''}">
       <span class="trk">${i+1}</span>
       <span class="trn">${r.owner}${me?' &#9733;':''}</span>
       <span class="trpts">${r.pts}</span>
       <span class="trtrack"><span class="trfill" style="width:${dead?0:Math.round(r.p/mx*100)}%"></span></span>
       <span class="trpct">${dead?'&mdash;':simPct(r.p)+'%'}</span>
-      ${tag}
+      ${move}
+      ${upset}${tag}
     </div>`;
   }).join('');
   document.querySelectorAll('#trToggle .tr-mode').forEach(b=>b.classList.toggle('active', b.dataset.mode===SIM_MODE));
@@ -1070,7 +1098,7 @@ function renderTeamSimOutcomes(){
     `We score every one exactly (3 pts per win, no goal/round bonuses). <b>${E.aliveForFirst.length}</b> owners can still finish 1st. `+
     `The Elo strength model favours <b>${E.fav||'—'}</b>.`;
   document.getElementById('trBoardNote').innerHTML =
-    `<b>Even odds</b> = every remaining knockout result a coin-flip. <b>Elo model</b> = weighted by current world-football Elo ratings (with a small host-nation edge for USA/Mexico/Canada while alive). Bar + % reflect the selected mode.`;
+    `<b>Even odds</b> = every remaining knockout result a coin-flip. <b>Elo model</b> = weighted by current world-football Elo ratings (with a small host-nation edge for USA/Mexico/Canada while alive). Bar + % reflect the selected mode. <span style="color:var(--accent)">&#9650;</span>/<span style="color:var(--danger)">&#9660;</span> = odds change since the last result; <span style="color:var(--warn)">&#9889; needs upsets</span> flags owners riding much higher on even-odds than the model.`;
   renderSimBoard();
   document.getElementById('trGames').innerHTML = E.games.map(g=>{
     const tot = Math.max(0.001, g.favIfA+g.favIfB);

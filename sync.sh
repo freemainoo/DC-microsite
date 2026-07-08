@@ -18,8 +18,13 @@ cd "$(dirname "$0")"
 say() { printf '\n\033[1m» %s\033[0m\n' "$1"; }
 die() { printf '\n\033[31m✗ %s\033[0m\n' "$1" >&2; exit 1; }
 
-# 0. Clean up any stray lock from a crashed git run.
+# 0. Clean up any stray state from a previously crashed/interrupted git run.
 rm -f .git/index.lock 2>/dev/null || true
+if [ -d .git/rebase-merge ] || [ -d .git/rebase-apply ]; then
+  say "Clearing a stale/interrupted rebase left by a previous run…"
+  git rebase --abort 2>/dev/null || true
+  rm -rf .git/rebase-merge .git/rebase-apply 2>/dev/null || true
+fi
 
 # 0b. Ensure a commit identity exists (matches this repo's history).
 [ -z "$(git config user.email || true)" ] && git config user.name "allen D" && git config user.email "plucks_teas5p@icloud.com"
@@ -39,6 +44,11 @@ fi
 # 2. Integrate the bot's work.
 say "Pulling remote changes (rebase)…"
 if ! git pull --rebase origin main; then
+  # Only auto-resolve if a rebase is genuinely mid-flight with conflicts.
+  # Any other pull failure (auth, network, non-rebase error) stops here.
+  if [ ! -d .git/rebase-merge ] && [ ! -d .git/rebase-apply ]; then
+    die "git pull --rebase failed and no rebase is in progress. Read the message above, resolve it, then re-run ./sync.sh."
+  fi
   conflicts="$(git diff --name-only --diff-filter=U)"
   others="$(echo "$conflicts" | grep -vE '^(data/results\.json|data/worldcup\.json|data/draft\.json|index\.html)$' || true)"
   if [ -n "$others" ]; then
