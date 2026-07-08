@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-08T04:24:41.574405+00:00",
+  "updated": "2026-07-08T07:38:33.551765+00:00",
   "source": "football-data.org",
   "results": {
     "1": [
@@ -530,7 +530,7 @@
       "hs": 4,
       "as": 3,
       "status": "final",
-      "pkWinner": null,
+      "pkWinner": "Switzerland",
       "date": "2026-07-07"
     },
     {
@@ -562,6 +562,16 @@
       "status": "scheduled",
       "pkWinner": null,
       "date": "2026-07-11"
+    },
+    {
+      "round": "QF",
+      "home": "Argentina",
+      "away": "Switzerland",
+      "hs": null,
+      "as": null,
+      "status": "scheduled",
+      "pkWinner": null,
+      "date": "2026-07-12"
     }
   ]
 }
