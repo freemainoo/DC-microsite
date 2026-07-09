@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-09T20:53:50.261069+00:00",
+  "updated": "2026-07-09T22:40:36.339214+00:00",
   "source": "football-data.org",
   "results": {
     "1": [
@@ -537,9 +537,9 @@
       "round": "QF",
       "home": "France",
       "away": "Morocco",
-      "hs": 0,
+      "hs": 2,
       "as": 0,
-      "status": "scheduled",
+      "status": "final",
       "pkWinner": null,
       "date": "2026-07-09"
     },
