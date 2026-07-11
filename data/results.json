@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-11T21:00:47.827360+00:00",
+  "updated": "2026-07-11T21:59:54.315356+00:00",
   "source": "football-data.org",
   "results": {
     "1": [
@@ -489,7 +489,7 @@
       "away": "England",
       "hs": 2,
       "as": 3,
-      "status": "final",
+      "status": "scheduled",
       "pkWinner": null,
       "date": "2026-07-06"
     },
@@ -557,8 +557,8 @@
       "round": "QF",
       "home": "Norway",
       "away": "England",
-      "hs": null,
-      "as": null,
+      "hs": 1,
+      "as": 1,
       "status": "scheduled",
       "pkWinner": null,
       "date": "2026-07-11"
