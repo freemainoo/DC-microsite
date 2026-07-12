@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-12T03:50:49.528583+00:00",
+  "updated": "2026-07-12T06:43:06.086411+00:00",
   "source": "football-data.org",
   "results": {
     "1": [
@@ -489,7 +489,7 @@
       "away": "England",
       "hs": 2,
       "as": 3,
-      "status": "scheduled",
+      "status": "final",
       "pkWinner": null,
       "date": "2026-07-06"
     },
@@ -569,7 +569,7 @@
       "away": "Switzerland",
       "hs": 3,
       "as": 1,
-      "status": "scheduled",
+      "status": "final",
       "pkWinner": null,
       "date": "2026-07-12"
     },
@@ -582,6 +582,16 @@
       "status": "scheduled",
       "pkWinner": null,
       "date": "2026-07-14"
+    },
+    {
+      "round": "SF",
+      "home": "England",
+      "away": "Argentina",
+      "hs": null,
+      "as": null,
+      "status": "scheduled",
+      "pkWinner": null,
+      "date": "2026-07-15"
     }
   ]
 }
