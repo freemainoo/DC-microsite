@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-14T19:39:34.845626+00:00",
+  "updated": "2026-07-14T21:09:50.159235+00:00",
   "source": "football-data.org",
   "results": {
     "1": [
@@ -578,8 +578,8 @@
       "home": "France",
       "away": "Spain",
       "hs": 0,
-      "as": 1,
-      "status": "scheduled",
+      "as": 2,
+      "status": "final",
       "pkWinner": null,
       "date": "2026-07-14"
     },
