@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-16T03:29:48.093867+00:00",
+  "updated": "2026-07-16T06:27:31.532278+00:00",
   "source": "football-data.org",
   "results": {
     "1": [
@@ -592,6 +592,26 @@
       "status": "final",
       "pkWinner": null,
       "date": "2026-07-15"
+    },
+    {
+      "round": "BRONZE",
+      "home": "France",
+      "away": "England",
+      "hs": null,
+      "as": null,
+      "status": "scheduled",
+      "pkWinner": null,
+      "date": "2026-07-18"
+    },
+    {
+      "round": "FINAL",
+      "home": "Spain",
+      "away": "Argentina",
+      "hs": null,
+      "as": null,
+      "status": "scheduled",
+      "pkWinner": null,
+      "date": "2026-07-19"
     }
   ]
 }
